@@ -16,9 +16,9 @@ public class DamageOnContact : MonoBehaviour
         }
         gameObject.SetActive(false);
         
-        /*if (other.CompareTag("Enemy") || other.CompareTag("Player"))
+        if (other.CompareTag("Enemy") || other.CompareTag("Player"))
         {
-            Destroy(other.gameObject);
-        }*/
+            Destroy(other.gameObject, 3);
+        }
     }
 }

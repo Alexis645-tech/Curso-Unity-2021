@@ -1,6 +1,6 @@
 m_ProjectFiles:
   m_ManifestFileStatus:
-    m_FilePath: D:/Unity projects/Unity 2021/Chutter/Packages/manifest.json
+    m_FilePath: D:/Unity projects/Curso-Unity-2021/Chutter/Packages/manifest.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
@@ -8,7 +8,7 @@ m_ProjectFiles:
       ticks: 637789736074414388
     m_Hash: 3182529206
   m_LockFileStatus:
-    m_FilePath: D:/Unity projects/Unity 2021/Chutter/Packages/packages-lock.json
+    m_FilePath: D:/Unity projects/Curso-Unity-2021/Chutter/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
@@ -76,7 +76,7 @@ m_PackageAssets:
       isDirectDependency: 1
       version: 2.6.11
       source: 1
-      resolvedPath: D:\Unity projects\Unity 2021\Chutter\Library\PackageCache\com.unity.cinemachine@2.6.11
+      resolvedPath: D:\Unity projects\Curso-Unity-2021\Chutter\Library\PackageCache\com.unity.cinemachine@2.6.11
       assetPath: Packages/com.unity.cinemachine
       name: com.unity.cinemachine
       displayName: Cinemachine
@@ -235,7 +235,7 @@ m_PackageAssets:
       isDirectDependency: 1
       version: 1.3.9
       source: 1
-      resolvedPath: D:\Unity projects\Unity 2021\Chutter\Library\PackageCache\com.unity.collab-proxy@1.3.9
+      resolvedPath: D:\Unity projects\Curso-Unity-2021\Chutter\Library\PackageCache\com.unity.collab-proxy@1.3.9
       assetPath: Packages/com.unity.collab-proxy
       name: com.unity.collab-proxy
       displayName: Unity Collaborate
@@ -361,7 +361,7 @@ m_PackageAssets:
       isDirectDependency: 1
       version: 2.0.7
       source: 1
-      resolvedPath: D:\Unity projects\Unity 2021\Chutter\Library\PackageCache\com.unity.ide.rider@2.0.7
+      resolvedPath: D:\Unity projects\Curso-Unity-2021\Chutter\Library\PackageCache\com.unity.ide.rider@2.0.7
       assetPath: Packages/com.unity.ide.rider
       name: com.unity.ide.rider
       displayName: JetBrains Rider Editor
@@ -474,7 +474,7 @@ m_PackageAssets:
       isDirectDependency: 1
       version: 4.5.2
       source: 1
-      resolvedPath: D:\Unity projects\Unity 2021\Chutter\Library\PackageCache\com.unity.probuilder@4.5.2
+      resolvedPath: D:\Unity projects\Curso-Unity-2021\Chutter\Library\PackageCache\com.unity.probuilder@4.5.2
       assetPath: Packages/com.unity.probuilder
       name: com.unity.probuilder
       displayName: ProBuilder
@@ -614,7 +614,7 @@ m_PackageAssets:
       isDirectDependency: 1
       version: 10.4.0
       source: 1
-      resolvedPath: D:\Unity projects\Unity 2021\Chutter\Library\PackageCache\com.unity.render-pipelines.universal@10.4.0
+      resolvedPath: D:\Unity projects\Curso-Unity-2021\Chutter\Library\PackageCache\com.unity.render-pipelines.universal@10.4.0
       assetPath: Packages/com.unity.render-pipelines.universal
       name: com.unity.render-pipelines.universal
       displayName: Universal RP
@@ -733,7 +733,7 @@ m_PackageAssets:
       isDirectDependency: 1
       version: 1.1.24
       source: 1
-      resolvedPath: D:\Unity projects\Unity 2021\Chutter\Library\PackageCache\com.unity.test-framework@1.1.24
+      resolvedPath: D:\Unity projects\Curso-Unity-2021\Chutter\Library\PackageCache\com.unity.test-framework@1.1.24
       assetPath: Packages/com.unity.test-framework
       name: com.unity.test-framework
       displayName: Test Framework
@@ -833,7 +833,7 @@ m_PackageAssets:
       isDirectDependency: 1
       version: 3.0.6
       source: 1
-      resolvedPath: D:\Unity projects\Unity 2021\Chutter\Library\PackageCache\com.unity.textmeshpro@3.0.6
+      resolvedPath: D:\Unity projects\Curso-Unity-2021\Chutter\Library\PackageCache\com.unity.textmeshpro@3.0.6
       assetPath: Packages/com.unity.textmeshpro
       name: com.unity.textmeshpro
       displayName: TextMeshPro
@@ -1000,7 +1000,7 @@ m_PackageAssets:
       isDirectDependency: 1
       version: 1.4.8
       source: 1
-      resolvedPath: D:\Unity projects\Unity 2021\Chutter\Library\PackageCache\com.unity.timeline@1.4.8
+      resolvedPath: D:\Unity projects\Curso-Unity-2021\Chutter\Library\PackageCache\com.unity.timeline@1.4.8
       assetPath: Packages/com.unity.timeline
       name: com.unity.timeline
       displayName: Timeline
@@ -1226,7 +1226,7 @@ m_PackageAssets:
       isDirectDependency: 1
       version: 10.4.0
       source: 1
-      resolvedPath: D:\Unity projects\Unity 2021\Chutter\Library\PackageCache\com.unity.visualeffectgraph@10.4.0
+      resolvedPath: D:\Unity projects\Curso-Unity-2021\Chutter\Library\PackageCache\com.unity.visualeffectgraph@10.4.0
       assetPath: Packages/com.unity.visualeffectgraph
       name: com.unity.visualeffectgraph
       displayName: Visual Effect Graph
@@ -3105,7 +3105,7 @@ m_PackageAssets:
       isDirectDependency: 0
       version: 10.4.0
       source: 1
-      resolvedPath: D:\Unity projects\Unity 2021\Chutter\Library\PackageCache\com.unity.shadergraph@10.4.0
+      resolvedPath: D:\Unity projects\Curso-Unity-2021\Chutter\Library\PackageCache\com.unity.shadergraph@10.4.0
       assetPath: Packages/com.unity.shadergraph
       name: com.unity.shadergraph
       displayName: Shader Graph
@@ -3265,7 +3265,7 @@ m_PackageAssets:
       isDirectDependency: 0
       version: 10.4.0
       source: 1
-      resolvedPath: D:\Unity projects\Unity 2021\Chutter\Library\PackageCache\com.unity.render-pipelines.core@10.4.0
+      resolvedPath: D:\Unity projects\Curso-Unity-2021\Chutter\Library\PackageCache\com.unity.render-pipelines.core@10.4.0
       assetPath: Packages/com.unity.render-pipelines.core
       name: com.unity.render-pipelines.core
       displayName: Core RP Library
@@ -3422,7 +3422,7 @@ m_PackageAssets:
       isDirectDependency: 0
       version: 1.0.6
       source: 1
-      resolvedPath: D:\Unity projects\Unity 2021\Chutter\Library\PackageCache\com.unity.ext.nunit@1.0.6
+      resolvedPath: D:\Unity projects\Curso-Unity-2021\Chutter\Library\PackageCache\com.unity.ext.nunit@1.0.6
       assetPath: Packages/com.unity.ext.nunit
       name: com.unity.ext.nunit
       displayName: Custom NUnit
@@ -3485,7 +3485,7 @@ m_PackageAssets:
       isDirectDependency: 0
       version: 1.1.0
       source: 1
-      resolvedPath: D:\Unity projects\Unity 2021\Chutter\Library\PackageCache\com.unity.mathematics@1.1.0
+      resolvedPath: D:\Unity projects\Curso-Unity-2021\Chutter\Library\PackageCache\com.unity.mathematics@1.1.0
       assetPath: Packages/com.unity.mathematics
       name: com.unity.mathematics
       displayName: Mathematics
@@ -3564,7 +3564,7 @@ m_PackageAssets:
       isDirectDependency: 0
       version: 1.0.3
       source: 1
-      resolvedPath: D:\Unity projects\Unity 2021\Chutter\Library\PackageCache\com.unity.settings-manager@1.0.3
+      resolvedPath: D:\Unity projects\Curso-Unity-2021\Chutter\Library\PackageCache\com.unity.settings-manager@1.0.3
       assetPath: Packages/com.unity.settings-manager
       name: com.unity.settings-manager
       displayName: Settings Manager
@@ -3626,7 +3626,7 @@ m_PackageAssets:
       isDirectDependency: 0
       version: 4.3.1
       source: 1
-      resolvedPath: D:\Unity projects\Unity 2021\Chutter\Library\PackageCache\com.unity.searcher@4.3.1
+      resolvedPath: D:\Unity projects\Curso-Unity-2021\Chutter\Library\PackageCache\com.unity.searcher@4.3.1
       assetPath: Packages/com.unity.searcher
       name: com.unity.searcher
       displayName: Searcher
@@ -3701,5 +3701,5 @@ m_PackageAssets:
         path: 
   m_LocalPackages:
     m_LocalFileStatus: []
-m_ProjectPath: D:/Unity projects/Unity 2021/Chutter/Packages
+m_ProjectPath: D:/Unity projects/Curso-Unity-2021/Chutter/Packages
 m_EditorVersion: 2020.3.6f1 (338bb68529b2)

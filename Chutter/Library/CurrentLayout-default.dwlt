@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1304
     height: 725
   m_ShowMode: 4
-  m_Title: Inspector
+  m_Title: Project
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 542}
   m_MaxSize: {x: 10000, y: 10000}
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_MinSize: {x: 677, y: 492}
   m_MaxSize: {x: 14001, y: 14042}
   vertical: 0
-  controlID: 141
+  controlID: 135
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -147,7 +147,7 @@ MonoBehaviour:
   m_MinSize: {x: 402, y: 492}
   m_MaxSize: {x: 10001, y: 14042}
   vertical: 1
-  controlID: 67
+  controlID: 196
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -172,7 +172,7 @@ MonoBehaviour:
   m_MinSize: {x: 402, y: 221}
   m_MaxSize: {x: 8002, y: 4021}
   vertical: 0
-  controlID: 68
+  controlID: 197
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -349,7 +349,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 0
+    m_EnableMouseInput: 1
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -408,8 +408,8 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: bc520000
-      m_LastClickedID: 21180
+      m_SelectedIDs: fc9cffff
+      m_LastClickedID: 0
       m_ExpandedIDs: 4efbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
@@ -470,9 +470,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 81.02463, y: 145.43272, z: 56.92862}
+    m_Target: {x: 91.424515, y: 142.40489, z: 54.153343}
     speed: 2
-    m_Value: {x: 81.02463, y: 145.43272, z: 56.92862}
+    m_Value: {x: 91.424515, y: 142.40489, z: 54.153343}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -519,13 +519,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.040945224, y: -0.95343715, z: 0.25771844, w: 0.1513959}
+    m_Target: {x: -0.11755442, y: -0.7178075, z: 0.12507878, w: -0.67479676}
     speed: 2
-    m_Value: {x: 0.04094403, y: -0.9534093, z: 0.2577109, w: 0.15139148}
+    m_Value: {x: -0.117550775, y: -0.71778524, z: 0.12507491, w: -0.67477584}
   m_Size:
-    m_Target: 2.2763379
+    m_Target: 10
     speed: 2
-    m_Value: 2.2763379
+    m_Value: 10
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1645,14 +1645,14 @@ MonoBehaviour:
     - {fileID: -1206472927480051557, guid: 777afb0db8a19d245b5a4fdf2cd6865e, type: 2}
     - {fileID: -7393533250092719761, guid: 6b4a1e57633756348bc2968d7db4aa8f, type: 2}
     m_ValueSerializationHelper:
-    - e00: 0.7264548
+    - e00: 0.89733493
       e01: 0
       e02: 0
-      e03: 207.80722
+      e03: 216.64763
       e10: 0
-      e11: 0.7264548
+      e11: 0.89733493
       e12: 0
-      e13: 70.37278
+      e13: 85.45004
       e20: 0
       e21: 0
       e22: 1
@@ -1763,22 +1763,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Materials
+    - Assets/_Scripts
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Materials
+  - Assets/_Scripts
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: D:\Unity projects\Unity 2021\Chutter
+  m_LastProjectPath: D:\Unity projects\Curso-Unity-2021\Chutter
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 26}
-    m_SelectedIDs: 725b0000
-    m_LastClickedID: 23410
-    m_ExpandedIDs: 00000000f45a0000f65a0000f85a0000fa5a0000fc5a0000fe5a0000005b0000025b0000045b0000065b0000085b00005e5b000000ca9a3b
+    scrollPos: {x: 0, y: 79}
+    m_SelectedIDs: 765b0000
+    m_LastClickedID: 23414
+    m_ExpandedIDs: 000000000e5b0000105b0000125b0000145b0000165b0000185b00001a5b00001c5b00001e5b0000205b0000225b0000725b000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1806,7 +1806,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000f45a0000f65a0000f85a0000fa5a0000fc5a0000fe5a0000005b0000025b0000045b0000065b0000085b0000
+    m_ExpandedIDs: 000000000e5b0000105b0000125b0000145b0000165b0000185b00001a5b00001c5b00001e5b0000205b0000225b0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -2969,7 +2969,7 @@ MonoBehaviour:
   m_ViewDataDictionary: {fileID: 0}
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 21180
+  m_LastSelectedObjectID: -17532
 --- !u!114 &26
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -3002,7 +3002,7 @@ MonoBehaviour:
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
   m_LastInspectedObjectInstanceID: -1
-  m_LastVerticalScrollValue: 288
+  m_LastVerticalScrollValue: 67
   m_GlobalObjectId: 
   m_LockTracker:
     m_IsLocked: 0
