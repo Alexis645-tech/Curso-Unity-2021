@@ -2,10 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Life : MonoBehaviour
 {
-    [SerializeField]private float amount;
+    private float amount;
+    public float maximunLife;
+
+    public UnityEvent OnDeath;
 
     public float Amount
     {
@@ -15,16 +19,13 @@ public class Life : MonoBehaviour
             amount = value;
             if (amount <= 0)
             {
-                Animator anim = GetComponent<Animator>();
-                anim.SetTrigger("PlayDie");
-                //Destroy(gameObject);
+                OnDeath.Invoke();
             }
         }
     }
 
-    void PlayDestruction()
+    private void Awake()
     {
-        ParticleSystem explosion = GetComponent<ParticleSystem>();
-        explosion.Play();
+        amount = maximunLife;
     }
 }
