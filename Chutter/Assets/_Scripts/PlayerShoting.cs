@@ -8,6 +8,8 @@ public class PlayerShoting : MonoBehaviour
     [SerializeField]private GameObject shootingPoint;
     private Animator _animator;
 
+    public int bulletsAmount;
+
     private void Start()
     {
         _animator = GetComponent<Animator>();
@@ -16,7 +18,7 @@ public class PlayerShoting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && bulletsAmount > 0 && Time.timeScale > 0)
         {
             _animator.SetTrigger("ShotBullet");
             Invoke("FireBullet", 0.2f);
@@ -31,5 +33,6 @@ public class PlayerShoting : MonoBehaviour
         bullet.transform.position = shootingPoint.transform.position;
         bullet.transform.rotation = shootingPoint.transform.rotation;
         bullet.SetActive(true);
+        bulletsAmount--;
     }
 }
