@@ -8,6 +8,9 @@ public class PlayerShoting : MonoBehaviour
     [SerializeField]private GameObject shootingPoint;
     private Animator _animator;
 
+    [SerializeField]private ParticleSystem fireEffect;
+    [SerializeField]private AudioSource shootSound;
+
     public int bulletsAmount;
 
     private void Start()
@@ -33,6 +36,13 @@ public class PlayerShoting : MonoBehaviour
         bullet.transform.position = shootingPoint.transform.position;
         bullet.transform.rotation = shootingPoint.transform.rotation;
         bullet.SetActive(true);
+        fireEffect.Play();
+        Instantiate(shootSound, transform.position, transform.rotation).GetComponent<AudioSource>().Play();
+        
         bulletsAmount--;
+        if (bulletsAmount < 0)
+        {
+            bulletsAmount = 0;
+        }
     }
 }

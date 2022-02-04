@@ -54,7 +54,7 @@
   <ItemGroup>
      <Compile Include="Assets\_Scripts\DamageOnContact.cs" />
      <Compile Include="Assets\_Scripts\PlayerShoting.cs" />
-     <Compile Include="Assets\_Scripts\LifeBar.cs" />
+     <Compile Include="Assets\_Scripts\UI\LifeBar.cs" />
      <Compile Include="Assets\_Scripts\EnemyManager.cs" />
      <Compile Include="Assets\_Scripts\AutoDestroy.cs" />
      <Compile Include="Assets\_Scripts\Life.cs" />
@@ -67,11 +67,12 @@
      <Compile Include="Assets\_Scripts\PlayerMovement.cs" />
      <Compile Include="Assets\_Scripts\WaveManager.cs" />
      <Compile Include="Assets\_Scripts\WaveSpawner.cs" />
-     <Compile Include="Assets\_Scripts\PlayerBulletUI.cs" />
-     <Compile Include="Assets\_Scripts\ScoreUI.cs" />
-     <Compile Include="Assets\_Scripts\EnemiesUI.cs" />
-     <Compile Include="Assets\_Scripts\WaveUI.cs" />
-     <Compile Include="Assets\_Scripts\Pause.cs" />
+     <Compile Include="Assets\_Scripts\UI\PlayerBulletUI.cs" />
+     <Compile Include="Assets\_Scripts\UI\ScoreUI.cs" />
+     <Compile Include="Assets\_Scripts\UI\EnemiesUI.cs" />
+     <Compile Include="Assets\_Scripts\UI\WaveUI.cs" />
+     <Compile Include="Assets\_Scripts\UI\Pause.cs" />
+     <Compile Include="Assets\_Scripts\IA\Sight.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
