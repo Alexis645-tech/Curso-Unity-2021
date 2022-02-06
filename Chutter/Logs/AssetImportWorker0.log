@@ -358,3 +358,13 @@ Mono: successfully reloaded assembly
 - Completed reload, in  3.659 seconds
 Platform modules already initialized, skipping
 Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Refreshing native plugins compatible for Editor in 2.84 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3323 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 157.2 MB.
+System memory in use after: 157.3 MB.
+
+Unloading 7 unused Assets to reduce memory usage. Loaded Objects now: 3967.
+Total: 7.612300 ms (FindLiveObjects: 1.233100 ms CreateObjectMapping: 0.766400 ms MarkObjects: 5.252200 ms  DeleteObjects: 0.355900 ms)
+
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file
