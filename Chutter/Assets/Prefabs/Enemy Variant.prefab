@@ -304,14 +304,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 622b2916461c26a43a8c8e88d44d2095, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 0
-  angle: 0
+  distance: 10
+  angle: 45
   targetLayers:
     serializedVersion: 2
     m_Bits: 64
   obstacleLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
+  detectedTarget: {fileID: 0}
 --- !u!1001 &1586809331701910067
 PrefabInstance:
   m_ObjectHideFlags: 0
