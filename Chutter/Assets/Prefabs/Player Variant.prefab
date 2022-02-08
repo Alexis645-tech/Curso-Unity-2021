@@ -4862,6 +4862,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3679984734081192958, guid: fc0c6142143721446a5b3a6710ddfc11, type: 3}
     - target: {fileID: 2334724166124820638, guid: f432554f564e69242897607d34218939, type: 3}
+      propertyPath: shootRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2334724166124820638, guid: f432554f564e69242897607d34218939, type: 3}
       propertyPath: fireEffect
       value: 
       objectReference: {fileID: 3771371810613389012}
@@ -5187,7 +5191,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2836004475591695743, guid: f432554f564e69242897607d34218939, type: 3}
       propertyPath: m_Name
-      value: Player
+      value: Player Variant
       objectReference: {fileID: 0}
     - target: {fileID: 2836004475591695743, guid: f432554f564e69242897607d34218939, type: 3}
       propertyPath: m_Layer

@@ -12,7 +12,10 @@ public class PlayerShoting : MonoBehaviour
     [SerializeField]private AudioSource shootSound;
 
     public int bulletsAmount;
-
+    
+    private float lastShootTime;
+    public float shootRate;
+    
     private void Start()
     {
         _animator = GetComponent<Animator>();
@@ -24,8 +27,17 @@ public class PlayerShoting : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0) && bulletsAmount > 0 && Time.timeScale > 0)
         {
             _animator.SetTrigger("ShotBullet");
-            Invoke("FireBullet", 0.2f);
-            
+            if (bulletsAmount > 0)
+            {
+                var timeSinceLastShoot = Time.time - lastShootTime;
+                if (timeSinceLastShoot < shootRate)
+                {
+                    return;
+                }
+
+                lastShootTime = Time.time;
+                Invoke("FireBullet", 0.2f);
+            }
         }
     }
 
