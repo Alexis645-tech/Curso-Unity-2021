@@ -5,17 +5,12 @@ using UnityEngine;
 
 public class PlayerShoting : MonoBehaviour
 {
-    [SerializeField]private GameObject shootingPoint;
     private Animator _animator;
 
-    [SerializeField]private ParticleSystem fireEffect;
-    [SerializeField]private AudioSource shootSound;
-
     public int bulletsAmount;
-    
-    private float lastShootTime;
-    public float shootRate;
-    
+
+    public Weapon weapon;
+
     private void Start()
     {
         _animator = GetComponent<Animator>();
@@ -24,37 +19,18 @@ public class PlayerShoting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && bulletsAmount > 0 && Time.timeScale > 0)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && Time.timeScale > 0)
         {
             _animator.SetTrigger("ShotBullet");
-            if (bulletsAmount > 0)
+            if (bulletsAmount > 0 && weapon.ShootBullet("Player Bullet", 0.25f))
             {
-                var timeSinceLastShoot = Time.time - lastShootTime;
-                if (timeSinceLastShoot < shootRate)
+                bulletsAmount--;
+                if (bulletsAmount < 0)
                 {
-                    return;
+                    bulletsAmount = 0;
                 }
-
-                lastShootTime = Time.time;
-                Invoke("FireBullet", 0.2f);
+                
             }
-        }
-    }
-
-    void FireBullet()
-    {
-        GameObject bullet = ObjectPool.SharedInstance.GetFirstPooledObject();
-        bullet.layer = LayerMask.NameToLayer("Player Bullet");
-        bullet.transform.position = shootingPoint.transform.position;
-        bullet.transform.rotation = shootingPoint.transform.rotation;
-        bullet.SetActive(true);
-        fireEffect.Play();
-        Instantiate(shootSound, transform.position, transform.rotation).GetComponent<AudioSource>().Play();
-        
-        bulletsAmount--;
-        if (bulletsAmount < 0)
-        {
-            bulletsAmount = 0;
         }
     }
 }

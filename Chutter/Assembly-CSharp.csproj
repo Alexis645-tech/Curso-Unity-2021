@@ -65,6 +65,7 @@
      <Compile Include="Assets\_Scripts\UI\PlayerBulletUI.cs" />
      <Compile Include="Assets\_Scripts\Enemy.cs" />
      <Compile Include="Assets\_Scripts\ScoreManager.cs" />
+     <Compile Include="Assets\_Scripts\IA\NavMeshAnimator.cs" />
      <Compile Include="Assets\Sprites\Sci-Fi UI\Demo_Assets\scripts\GUI_Demo.cs" />
      <Compile Include="Assets\_Scripts\MoveForward.cs" />
      <Compile Include="Assets\_Scripts\GameModeWaves.cs" />
@@ -74,7 +75,8 @@
      <Compile Include="Assets\_Scripts\IA\Sight.cs" />
      <Compile Include="Assets\_Scripts\WaveSpawner.cs" />
      <Compile Include="Assets\_Scripts\IA\EnemyFSM.cs" />
-     <Compile Include="Assets\_Scripts\IA\NavMeshAnimator.cs" />
+     <Compile Include="Assets\_Scripts\UI\GameOver.cs" />
+     <Compile Include="Assets\_Scripts\Weapon.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

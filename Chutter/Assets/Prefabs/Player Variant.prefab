@@ -4828,7 +4828,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6852110481092022328}
   m_Material: {fileID: 13400000, guid: 57b2ccdc9eb2fd841b7f23bce2c1c735, type: 2}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2.0650177
@@ -4846,6 +4846,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d7fa2b4c413fd4bb5492808136b8ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  amount: 0
   maximunLife: 100
   OnDeath:
     m_PersistentCalls:
@@ -5201,6 +5202,18 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4500843709037354063, guid: f432554f564e69242897607d34218939, type: 3}
+      propertyPath: shootRate
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4500843709037354063, guid: f432554f564e69242897607d34218939, type: 3}
+      propertyPath: fireEffect
+      value: 
+      objectReference: {fileID: 3771371810613389012}
+    - target: {fileID: 4500843709037354063, guid: f432554f564e69242897607d34218939, type: 3}
+      propertyPath: shootSound
+      value: 
+      objectReference: {fileID: 8146966005251275016, guid: 8c6b241cfe33c3a4a99e972174bbef89, type: 3}
     - target: {fileID: 4702795315985263072, guid: f432554f564e69242897607d34218939, type: 3}
       propertyPath: speed
       value: 1000

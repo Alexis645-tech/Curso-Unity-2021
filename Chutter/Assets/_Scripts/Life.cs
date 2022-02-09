@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 public class Life : MonoBehaviour
 {
-    private float amount;
+    [SerializeField]private float amount;
     public float maximunLife;
 
     public UnityEvent OnDeath;

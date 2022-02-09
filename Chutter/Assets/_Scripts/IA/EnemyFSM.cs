@@ -24,8 +24,8 @@ public class EnemyFSM : MonoBehaviour
     private NavMeshAgent _agent;
     private Animator _animator;
 
-    private float lastShootTime;
-    public float shootRate;
+    public Weapon weapon;
+    
     private void Awake()
     {
         _sight = GetComponent<Sight>();
@@ -62,8 +62,6 @@ public class EnemyFSM : MonoBehaviour
 
     void GoToBase()
     {
-        print("Ir a Base");
-
         _agent.isStopped = false;
         _agent.SetDestination(baseTransform.position);
         
@@ -82,8 +80,6 @@ public class EnemyFSM : MonoBehaviour
 
     void AttackBase()
     {
-        print("Atacar la base enemiga");
-        
         _agent.isStopped = true;
         ShootTarget();
         lookAt(baseTransform.position);
@@ -91,8 +87,6 @@ public class EnemyFSM : MonoBehaviour
 
     void ChasePlayer()
     {
-        print("Perseguir al jugador");
-        
         if (_sight.detectedTarget == null)
         {
             currentState = EnemyState.GoToBase;
@@ -111,8 +105,6 @@ public class EnemyFSM : MonoBehaviour
 
     void AttackPlayer()
     {
-        print("Atacar al jugador");
-        
         _agent.isStopped = true;
         
         if (_sight.detectedTarget == null)
@@ -131,23 +123,12 @@ public class EnemyFSM : MonoBehaviour
         }
     }
 
-    void ShootTarget()
+    // ReSharper disable Unity.PerformanceAnalysis
+    private void ShootTarget()
     {
-        if (Time.timeScale > 0)
+        if (weapon.ShootBullet("Enemy Bullet", 0.0f))
         {
-            var timeSinceLastShoot = Time.time - lastShootTime;
-            if (timeSinceLastShoot < shootRate)
-            {
-                return;
-            }
-
             _animator.SetTrigger("ShotBullet");
-            lastShootTime = Time.time;
-            var bullet = ObjectPool.SharedInstance.GetFirstPooledObject();
-            bullet.transform.position = transform.position;
-            bullet.transform.rotation = transform.rotation;
-            bullet.layer = LayerMask.NameToLayer("Enemy Bullet");
-            bullet.SetActive(true);
         }
     }
 
