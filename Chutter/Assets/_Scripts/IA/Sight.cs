@@ -13,34 +13,40 @@ public class Sight : MonoBehaviour
 
     public Collider detectedTarget;
 
+    private Collider[] colliders;
+
     private void Update()
     {
-        //filtro de distancia
-        Collider[] colliders = Physics.OverlapSphere(transform.position, distance, targetLayers);
-        detectedTarget = null;
-        foreach (var collider in colliders)
+        if (Physics.OverlapSphereNonAlloc(transform.position, distance, colliders, targetLayers) == 0)
         {
-            Vector3 directionToCollider = Vector3.Normalize(collider.bounds.center - transform.position);
-            
-            //Angulo que forman el vector vision  con el vector objetivo
-            float angleToCollider = Vector3.Angle(transform.forward, directionToCollider);
-            
-            //Si el angulo es menor que el de vision
-            if (angleToCollider < angle)
+            //filtro de distancia
+            colliders = Physics.OverlapSphere(transform.position, distance, targetLayers);
+            detectedTarget = null;
+            foreach (var collider in colliders)
             {
-                //Comprobamos que en la linea de vision enemigo -> objetivo no haya obstaculos
-                if (!Physics.Linecast(transform.position, collider.bounds.center, out RaycastHit hit, obstacleLayers))
+                Vector3 directionToCollider = Vector3.Normalize(collider.bounds.center - transform.position);
+            
+                //Angulo que forman el vector vision  con el vector objetivo
+                float angleToCollider = Vector3.Angle(transform.forward, directionToCollider);
+            
+                //Si el angulo es menor que el de vision
+                if (angleToCollider < angle)
                 {
-                    Debug.DrawLine(transform.position, collider.bounds.center, Color.green);
-                    //Guardamos la referencia del objetivo detectado
-                    detectedTarget = collider;
-                    break;
-                }
-                else //Hay hit
-                {
-                    Debug.DrawLine(transform.position, hit.point, Color.red);
+                    //Comprobamos que en la linea de vision enemigo -> objetivo no haya obstaculos
+                    if (!Physics.Linecast(transform.position, collider.bounds.center, out RaycastHit hit, obstacleLayers))
+                    {
+                        Debug.DrawLine(transform.position, collider.bounds.center, Color.green);
+                        //Guardamos la referencia del objetivo detectado
+                        detectedTarget = collider;
+                        break;
+                    }
+                    else //Hay hit
+                    {
+                        Debug.DrawLine(transform.position, hit.point, Color.red);
+                    }
                 }
             }
+            return;
         }
     }
 
