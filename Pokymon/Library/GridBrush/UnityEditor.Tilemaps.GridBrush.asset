@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Default Brush
   m_EditorClassIdentifier: 
   m_Cells:
-  - m_Tile: {fileID: 11400000, guid: 843ce0d2d847eaf4684257328373bbe1, type: 2}
+  - m_Tile: {fileID: 11400000, guid: cba09ade7b18fd24aa8a256cd54c94b2, type: 2}
     m_Matrix:
       e00: 1
       e01: 0
@@ -32,7 +32,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     m_Color: {r: 1, g: 1, b: 1, a: 1}
-  - m_Tile: {fileID: 11400000, guid: 79468be25d32c344f91c59ac422ddef7, type: 2}
+  - m_Tile: {fileID: 11400000, guid: 85e310472950a8a4685c05bca9f96b31, type: 2}
     m_Matrix:
       e00: 1
       e01: 0
@@ -51,7 +51,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     m_Color: {r: 1, g: 1, b: 1, a: 1}
-  - m_Tile: {fileID: 11400000, guid: 54387b8d12f3f6943aa21ae9d43f5c4a, type: 2}
+  - m_Tile: {fileID: 11400000, guid: c9ad07518cdfb5d4d9fb12a8fcbeb448, type: 2}
     m_Matrix:
       e00: 1
       e01: 0
@@ -70,7 +70,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     m_Color: {r: 1, g: 1, b: 1, a: 1}
-  - m_Tile: {fileID: 11400000, guid: cbd0a7418a566284faefd1048b083e1c, type: 2}
+  - m_Tile: {fileID: 11400000, guid: 7eb8a0ee2fda691499b44c7530ab9c0a, type: 2}
     m_Matrix:
       e00: 1
       e01: 0
@@ -89,7 +89,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     m_Color: {r: 1, g: 1, b: 1, a: 1}
-  - m_Tile: {fileID: 11400000, guid: 9b9843f6339b48649896b1580e893a7a, type: 2}
+  - m_Tile: {fileID: 11400000, guid: 33429ec47765f3e469d4f3abc5f2113e, type: 2}
     m_Matrix:
       e00: 1
       e01: 0
@@ -108,7 +108,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     m_Color: {r: 1, g: 1, b: 1, a: 1}
-  - m_Tile: {fileID: 11400000, guid: eb9b202c6dc5910488a760ad7100c840, type: 2}
+  - m_Tile: {fileID: 11400000, guid: cecb1f8baafe0ca42901ab91c91f8014, type: 2}
     m_Matrix:
       e00: 1
       e01: 0
@@ -127,7 +127,7 @@ MonoBehaviour:
       e32: 0
       e33: 1
     m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Size: {x: 2, y: 3, z: 1}
-  m_Pivot: {x: 1, y: 0, z: 0}
+  m_Size: {x: 3, y: 2, z: 1}
+  m_Pivot: {x: 2, y: 0, z: 0}
   m_CanChangeZPosition: 0
   m_FloodFillContiguousOnly: 1
