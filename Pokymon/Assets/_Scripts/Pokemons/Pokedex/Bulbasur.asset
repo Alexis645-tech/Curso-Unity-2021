@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 414fd89e18241ed42b9fc07928efe863, type: 3}
+  m_Name: Bulbasur
+  m_EditorClassIdentifier: 
+  ID: 1
+  name: Bulbasaur
+  description: Pokemon planta
+  frontSprite: {fileID: 21300000, guid: 8bfa43867ec66904aa1650619e42cb25, type: 3}
+  backSprite: {fileID: 21300000, guid: 15b350f3037570c40b08ee19abc71a27, type: 3}
+  type1: 5
+  type2: 8
+  maxHP: 45
+  attack: 49
+  defense: 49
+  spAttack: 65
+  spDefense: 65
+  speed: 45
+  learnableMoves:
+  - _move: {fileID: 11400000, guid: a7a536bb31dd98c4ea46178a9ca1cbef, type: 2}
+    level: 1
+  - _move: {fileID: 11400000, guid: 9e4af2f764664ba4da585a42ae3de8f7, type: 2}
+    level: 5
+  - _move: {fileID: 11400000, guid: 792d711f0c2c0d142b0f69712d2852f9, type: 2}
+    level: 7

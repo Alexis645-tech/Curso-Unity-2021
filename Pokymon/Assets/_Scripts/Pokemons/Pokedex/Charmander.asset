@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 414fd89e18241ed42b9fc07928efe863, type: 3}
+  m_Name: Charmander
+  m_EditorClassIdentifier: 
+  ID: 4
+  name: Charmander
+  description: Pokemon fuego
+  frontSprite: {fileID: 21300000, guid: 412b85e5348f7b441ad819414b916c3f, type: 3}
+  backSprite: {fileID: 21300000, guid: 860a06182b1e8a34f9870613af5967ba, type: 3}
+  type1: 2
+  type2: 0
+  maxHP: 39
+  attack: 52
+  defense: 43
+  spAttack: 60
+  spDefense: 50
+  speed: 65
+  learnableMoves:
+  - _move: {fileID: 11400000, guid: e8119b29a5f5a034a94a589623366ad4, type: 2}
+    level: 1
+  - _move: {fileID: 11400000, guid: 9e4af2f764664ba4da585a42ae3de8f7, type: 2}
+    level: 5
+  - _move: {fileID: 11400000, guid: 1fc0b9bcc19d07f47a645293b95c8028, type: 2}
+    level: 7
