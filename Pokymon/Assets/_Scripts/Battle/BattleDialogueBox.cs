@@ -10,6 +10,14 @@ public class BattleDialogueBox : MonoBehaviour
     [SerializeField] private GameObject movementSelect;
     [SerializeField] private GameObject movementDescription;
     
+    [SerializeField] List<Text> actionTexts;
+    [SerializeField] List<Text> movementTexts;
+
+    [SerializeField] private Text ppText;
+    [SerializeField] private Text typeText;
+    
+    [SerializeField] Color selectedColor = Color.blue;
+    
     public float charactersPerSecond = 10.0f;
 
     public IEnumerator SetDialogue(string message)
@@ -19,6 +27,53 @@ public class BattleDialogueBox : MonoBehaviour
         {
             dialogueText.text += character;
             yield return new WaitForSeconds(1 / charactersPerSecond);
+        }
+    }
+
+    public void ToggleDialogueText(bool activated)
+    {
+        dialogueText.enabled = activated;
+    }
+
+    public void ToggleActions(bool activated)
+    {
+        actionSelect.SetActive(activated);
+    }
+
+    public void ToggleMovements(bool activated)
+    {
+        movementSelect.SetActive(activated);
+        movementDescription.SetActive(activated);
+    }
+
+    public void SelectAction(int selectedAction)
+    {
+        for (int i = 0; i < actionTexts.Count; i++)
+        {
+            actionTexts[i].color = (i == selectedAction ? selectedColor : Color.black);
+        }
+    }
+
+    public void SetPokemonMovements(List<Move> moves)
+    {
+        for (int i = 0; i < movementTexts.Count; i++)
+        {
+            if (i < moves.Count)
+            {
+                movementTexts[i].text = moves[i].Base.Name;
+            }
+            else
+            {
+                movementTexts[i].text = "---";
+            }
+        }
+    }
+    
+    public void SelectMovement(int selectedMovement)
+    {
+        for (int i = 0; i < movementTexts.Count; i++)
+        {
+            movementTexts[i].color = (i == selectedMovement ? selectedColor : Color.black);
         }
     }
 }
