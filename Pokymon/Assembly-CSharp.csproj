@@ -315,6 +315,9 @@
      <Reference Include="Newtonsoft.Json">
      <HintPath>D:\Unity projects\Curso-Unity-2021\Pokymon\Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll</HintPath>
      </Reference>
+     <Reference Include="DOTween">
+     <HintPath>D:\Unity projects\Curso-Unity-2021\Pokymon\Assets\Plugins\Demigiant\DOTween\DOTween.dll</HintPath>
+     </Reference>
      <Reference Include="netstandard">
      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.2.8f1\Editor\Data\NetStandard\ref\2.1.0\netstandard.dll</HintPath>
      </Reference>
@@ -833,6 +836,10 @@
      </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{a08e3f08-98d4-52ae-b217-048f6a35909f}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

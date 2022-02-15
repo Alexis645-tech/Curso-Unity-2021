@@ -44,7 +44,6 @@ public class BattleManager : MonoBehaviour
         enemyHUD.SetPokemonData(enemyUnit.Pokemon);
         
         yield return battleDialogueBox.SetDialogue($"Un {enemyUnit.Pokemon.Base.Name} salvaje a aparecido.");
-        yield return new WaitForSeconds(1.0f);
 
         if (enemyUnit.Pokemon.Speed > playerUnit.Pokemon.Speed)
         {
@@ -75,16 +74,16 @@ public class BattleManager : MonoBehaviour
         battleDialogueBox.ToggleActions(false);
         battleDialogueBox.ToggleMovements(true);
         currentSelectedMovement = 0;
-        battleDialogueBox.SelectMovement(currentSelectedMovement);
-    }
-    void EnemyAction()
-    {
-        
+        battleDialogueBox.SelectMovement(currentSelectedMovement, playerUnit.Pokemon.Moves[currentSelectedMovement]);
     }
 
     private void Update()
     {
         timeSinceLastClick += Time.deltaTime;
+        if (battleDialogueBox.isWriting)
+        {
+            return;
+        }
         if (state == BattleState.PlayerSelectAction)
         {
             HandlePlayerActionSelection();
@@ -133,12 +132,18 @@ public class BattleManager : MonoBehaviour
         if (Input.GetAxisRaw("Vertical") != 0)
         {
             timeSinceLastClick = 0;
+            var oldSelectedMovement = currentSelectedMovement;
             currentSelectedMovement = (currentSelectedMovement + 2) % 4;
-            battleDialogueBox.SelectMovement(currentSelectedMovement);
+            if (currentSelectedMovement >= playerUnit.Pokemon.Moves.Count)
+            {
+                currentSelectedMovement = oldSelectedMovement;
+            }
+            battleDialogueBox.SelectMovement(currentSelectedMovement, playerUnit.Pokemon.Moves[currentSelectedMovement]);
         }
         else if (Input.GetAxisRaw("Horizontal") != 0)
         {
             timeSinceLastClick = 0;
+            var oldSelectedMovement = currentSelectedMovement;
             if (currentSelectedMovement <= 1)
             {
                 currentSelectedMovement = (currentSelectedMovement + 1) % 2;
@@ -147,7 +152,68 @@ public class BattleManager : MonoBehaviour
             {
                 currentSelectedMovement = (currentSelectedMovement + 1) % 2 + 2;
             }
-            battleDialogueBox.SelectMovement(currentSelectedMovement);
+
+            if (currentSelectedMovement >= playerUnit.Pokemon.Moves.Count)
+            {
+                currentSelectedMovement = oldSelectedMovement;
+            }
+            battleDialogueBox.SelectMovement(currentSelectedMovement, playerUnit.Pokemon.Moves[currentSelectedMovement]);
+        }
+
+        if (Input.GetAxisRaw("Submit") != 0)
+        {
+            timeSinceLastClick = 0;
+            battleDialogueBox.ToggleMovements(false);
+            battleDialogueBox.ToggleDialogueText(true);
+            StartCoroutine(PerformPlayerMovement());
+        }
+
+        IEnumerator PerformPlayerMovement()
+        {
+            Move move = playerUnit.Pokemon.Moves[currentSelectedMovement];
+            yield return battleDialogueBox.SetDialogue($"{playerUnit.Pokemon.Base.Name} ha usado {move.Base.Name}");
+            
+            var oldHPValeu = enemyUnit.Pokemon.HP;
+            
+            playerUnit.PlayAttackAnimation();
+            yield return new WaitForSeconds(1f);
+            enemyUnit.PlayReceiveAttackAnimation();
+            
+            bool pokemonFainted = enemyUnit.Pokemon.ReceiveDamage(playerUnit.Pokemon, move);
+            enemyHUD.UpdatePokemonData(oldHPValeu);
+            if (pokemonFainted)
+            {
+                yield return battleDialogueBox.SetDialogue($"{enemyUnit.Pokemon.Base.Name} se ha debilitado");
+                enemyUnit.PlayFaintAnimation();
+            }
+            else
+            {
+                StartCoroutine(EnemyAction());
+            }
+        }
+    }
+    IEnumerator EnemyAction()
+    {
+        state = BattleState.EnemyMove;
+        Move move = enemyUnit.Pokemon.RandomMove();
+        yield return battleDialogueBox.SetDialogue($"{enemyUnit.Pokemon.Base.Name} ha usado {move.Base.Name}");
+        
+        var oldHPValeu = playerUnit.Pokemon.HP;
+        
+        enemyUnit.PlayAttackAnimation();
+        yield return new WaitForSeconds(1f);
+        playerUnit.PlayReceiveAttackAnimation();
+        
+        bool pokemonFainted = playerUnit.Pokemon.ReceiveDamage(enemyUnit.Pokemon, move);
+        playerHUD.UpdatePokemonData(oldHPValeu);
+        if (pokemonFainted)
+        {
+            yield return battleDialogueBox.SetDialogue($"{playerUnit.Pokemon.Base.Name} ha sido debilitado");
+            playerUnit.PlayFaintAnimation();
+        }
+        else
+        {
+            PlayerAction();
         }
     }
 }

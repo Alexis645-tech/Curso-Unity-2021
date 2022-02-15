@@ -158,7 +158,7 @@ RectTransform:
   - {fileID: 741467911}
   - {fileID: 1730479699}
   m_Father: {fileID: 1246601872}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -251,7 +251,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1246601872}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -273,6 +273,10 @@ MonoBehaviour:
   _base: {fileID: 11400000, guid: 921ba8533169c7b479849751e793b89f, type: 2}
   _level: 6
   isPlayer: 0
+  startTimeAnim: 1
+  attackTimeAnim: 0.3
+  dieTimeAnim: 1
+  hitTimeAnim: 0
 --- !u!114 &128198049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16952,8 +16956,8 @@ RectTransform:
   m_Children:
   - {fileID: 187685206}
   - {fileID: 2056631271}
-  - {fileID: 46340665}
   - {fileID: 128198047}
+  - {fileID: 46340665}
   - {fileID: 1702445407}
   - {fileID: 1643223529}
   m_Father: {fileID: 1650868639}
@@ -24773,7 +24777,9 @@ MonoBehaviour:
   ppText: {fileID: 1165251388}
   typeText: {fileID: 1448276188}
   selectedColor: {r: 0, g: 0, b: 1, a: 1}
+  timeToWaitAfterText: 0.5
   charactersPerSecond: 10
+  isWriting: 0
 --- !u!1 &1650868638
 GameObject:
   m_ObjectHideFlags: 0
@@ -24826,7 +24832,7 @@ MonoBehaviour:
   enemyHUD: {fileID: 1702445408}
   battleDialogueBox: {fileID: 1643223532}
   state: 0
-  timeBetweenClicks: 0.3
+  timeBetweenClicks: 0.5
 --- !u!1 &1702445406
 GameObject:
   m_ObjectHideFlags: 0
@@ -25281,6 +25287,10 @@ MonoBehaviour:
   _base: {fileID: 11400000, guid: 693bf942c5ada9349896670b1eba0f94, type: 2}
   _level: 6
   isPlayer: 1
+  startTimeAnim: 1
+  attackTimeAnim: 0.3
+  dieTimeAnim: 1
+  hitTimeAnim: 0
 --- !u!1 &2091373470
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,17 +17,24 @@ public class BattleDialogueBox : MonoBehaviour
     [SerializeField] private Text typeText;
     
     [SerializeField] Color selectedColor = Color.blue;
+
+    public float timeToWaitAfterText = 1f;
     
     public float charactersPerSecond = 10.0f;
+    public bool isWriting;
 
     public IEnumerator SetDialogue(string message)
     {
+        isWriting = true;
         dialogueText.text = "";
         foreach (var character in message)
         {
             dialogueText.text += character;
             yield return new WaitForSeconds(1 / charactersPerSecond);
         }
+
+        yield return new WaitForSeconds(timeToWaitAfterText);
+        isWriting = false;
     }
 
     public void ToggleDialogueText(bool activated)
@@ -69,11 +76,14 @@ public class BattleDialogueBox : MonoBehaviour
         }
     }
     
-    public void SelectMovement(int selectedMovement)
+    public void SelectMovement(int selectedMovement, Move move)
     {
         for (int i = 0; i < movementTexts.Count; i++)
         {
             movementTexts[i].color = (i == selectedMovement ? selectedColor : Color.black);
         }
+
+        ppText.text = $"PP {move.Pp}/{move.Base.PP}";
+        typeText.text = move.Base.Type.ToString().ToUpper();
     }
 }
