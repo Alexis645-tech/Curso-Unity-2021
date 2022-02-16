@@ -19,7 +19,7 @@ public class BattleHUD : MonoBehaviour
         _pokemon = pokemon;
         pokemonName.text = pokemon.Base.Name;
         pokemonLevel.text = $"Lv {pokemon.Level}";
-        //Si con el update se ve mal, actualizar la vida al iniciar la batalla
+        healthBar.SetHP((float)_pokemon.HP/_pokemon.MaxHp);
         UpdatePokemonData(pokemon.HP);
     }
 
@@ -34,7 +34,7 @@ public class BattleHUD : MonoBehaviour
         while (oldHpValeu > _pokemon.HP)
         {
             oldHpValeu--;
-            pokemonHealth.text = $"{_pokemon.HP}/{_pokemon.MaxHp}";
+            pokemonHealth.text = $"{oldHpValeu}/{_pokemon.MaxHp}";
             yield return new WaitForSeconds(0.1f);
         }
         pokemonHealth.text = $"{_pokemon.HP}/{_pokemon.MaxHp}";

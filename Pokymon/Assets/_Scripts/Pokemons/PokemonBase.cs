@@ -44,8 +44,47 @@ public class PokemonBase : ScriptableObject
 
 public enum PokemonType
 {
-    None, Normal, Fire, Water, Electric, Grass, Fight, Ice, Poison, Ground, Fly, Psychic, Rock, Bug, Ghost, Dragon, Dark, Fairy, Steel 
-    //TODO: poner los que faltan
+    None, Normal, Fire, Water, Electric, Grass, Ice, Fight, Poison, Ground, Fly, Psychic, Bug, Rock, Ghost, Dragon, Dark, Steel, Fairy
+}
+
+public class TypeMatrix
+{
+    //TODO: completar el resto de la matriz
+    private static float[][] matrix =
+    {
+        //                     Nor  Fir  Wat  Ele  Gra  Ice  Fig  Poi  Gro  Fly  Psy  Bug  Roc  Gho  Dra  Dar  Ste  Fai
+        /*Nor*/ new float [] { 1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,0.5f,  0,   1f,  1f,0.5f,  1f},
+        /*Fir*/ new float [] { 1f,0.5f,0.5f,  1f,  2f,  2f,  1f,  1f,  1f,  1f,  1f,  2f,0.5f,  1f,0.5f,  1f,  2f,  1f},  
+        /*Wat*/ new float [] { 1f,  2f,0.5f,  1f,0.5f,  1f,  1f,  1f,  2f,  1f,  1f,  1f,  2f,  1f,0.5f,  1f,  1f,  1f},
+        /*Ele*/ new float [] { 1f,  1f,  2f,0.5f,0.5f,  1f,  1f,  1f,  0f,  2f,  1f,  1f,  1f,  1f,0.5f,  1f,  1f,  1f},
+        /*Gra*/ new float [] { 1f,0.5f,  2f,  1f,0.5f,  1f,  1f,0.5f,  2f,0.5f,  1f,0.5f,  2f,  1f,0.5f,  1f,0.5f,  1f},
+        /*Ice*/ new float [] { 1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f},
+        /*Fig*/ new float [] { 1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f},
+        /*Poi*/ new float [] { 1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f},
+        /*Gro*/ new float [] { 1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f},
+        /*Fly*/ new float [] { 1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f},
+        /*Psy*/ new float [] { 1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f},
+        /*Bug*/ new float [] { 1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f},
+        /*Roc*/ new float [] { 1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f},
+        /*Gho*/ new float [] { 1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f},
+        /*Dra*/ new float [] { 1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f},
+        /*Dar*/ new float [] { 1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f},
+        /*Ste*/ new float [] { 1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f},
+        /*Fai*/ new float [] { 1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f,  1f}
+    };
+
+    public static float GetMultEffectiveness(PokemonType attackType, PokemonType pokemonDefenderType)
+    {
+        if (attackType == PokemonType.None || pokemonDefenderType == PokemonType.None)
+        {
+            return 1.0f;
+        }
+
+        int row = (int) attackType;
+        int col = (int) pokemonDefenderType;
+
+        return matrix[row - 1][col - 1];
+    }
 }
 
 [Serializable]
