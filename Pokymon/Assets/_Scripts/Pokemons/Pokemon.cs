@@ -1,11 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
+[Serializable]
 public class Pokemon
 {
-    private PokemonBase _base;
-    private int _level;
+    [SerializeField] private PokemonBase _base;
+    [SerializeField] private int _level;
 
     public PokemonBase Base => _base;
     public int Level
@@ -29,10 +32,8 @@ public class Pokemon
         set => _hp = value;
     }
 
-    public Pokemon(PokemonBase pokemonBase, int pokemonlevel)
+    public void InitPokemon()
     {
-        _base = pokemonBase;
-        _level = pokemonlevel;
         _hp = MaxHp;
 
         _moves = new List<Move>();

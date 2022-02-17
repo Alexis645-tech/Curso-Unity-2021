@@ -50,8 +50,12 @@
      <Compile Include="Assets\_Scripts\Moves\Move.cs" />
      <Compile Include="Assets\_Scripts\Battle\BattleUnit.cs" />
      <Compile Include="Assets\_Scripts\Moves\MoveBase.cs" />
-     <Compile Include="Assets\_Scripts\Battle\BattleHUD.cs" />
      <Compile Include="Assets\_Scripts\GameManager.cs" />
+     <Compile Include="Assets\_Scripts\Battle\BattleHUD.cs" />
+     <Compile Include="Assets\_Scripts\Pokemons\PokemonParty.cs" />
+     <Compile Include="Assets\_Scripts\Pokemons\PokemonMapArea.cs" />
+     <Compile Include="Assets\_Scripts\Battle\PartyMemberHUD.cs" />
+     <Compile Include="Assets\_Scripts\Battle\PartyHUD.cs" />
      <Reference Include="UnityEngine">
      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.2.8f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
      </Reference>
