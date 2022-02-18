@@ -23,10 +23,10 @@ public class BattleHUD : MonoBehaviour
         UpdatePokemonData(pokemon.HP);
     }
 
-    public void UpdatePokemonData(int oldHPValeu)
+    public IEnumerator UpdatePokemonData(int oldHPValeu)
     {
-        StartCoroutine(healthBar.SetSmoothHp((float)_pokemon.HP/_pokemon.MaxHp));
-        StartCoroutine(DecreaseHealthPoints(oldHPValeu));
+        yield return healthBar.SetSmoothHp((float)_pokemon.HP/_pokemon.MaxHp);
+        yield return DecreaseHealthPoints(oldHPValeu);
     }
 
     IEnumerator DecreaseHealthPoints(int oldHpValeu)

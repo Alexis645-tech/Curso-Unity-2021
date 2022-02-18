@@ -85,5 +85,7 @@ public class BattleDialogueBox : MonoBehaviour
 
         ppText.text = $"PP {move.Pp}/{move.Base.PP}";
         typeText.text = move.Base.Type.ToString().ToUpper();
+
+        ppText.color = (move.Pp <= 0 ? Color.red : Color.black);
     }
 }

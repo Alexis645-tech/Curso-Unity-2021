@@ -40,4 +40,9 @@ public class PartyHUD : MonoBehaviour
             memberHuds[i].SetSelectedPokemon(i == selectedPokemon);
         }
     }
+
+    public void SetMessage(string message)
+    {
+        messageText.text = message;
+    }
 }

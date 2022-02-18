@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cab4301995492e140b90910ef16663f7, type: 3}
   m_Name: Bubble
   m_EditorClassIdentifier: 
-  name: 
+  name: Bubble
   description: 
   type: 3
   power: 40

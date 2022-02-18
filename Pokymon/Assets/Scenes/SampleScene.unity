@@ -491,8 +491,8 @@ MonoBehaviour:
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: Mochila
 --- !u!222 &101370622
@@ -557,6 +557,7 @@ MonoBehaviour:
   _base: {fileID: 11400000, guid: 921ba8533169c7b479849751e793b89f, type: 2}
   _level: 6
   isPlayer: 0
+  hud: {fileID: 1702445408}
   startTimeAnim: 1
   attackTimeAnim: 0.3
   dieTimeAnim: 1
@@ -866,8 +867,8 @@ MonoBehaviour:
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: Movimiento 1
 --- !u!222 &366869798
@@ -15875,9 +15876,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemons:
   - _base: {fileID: 11400000, guid: 693bf942c5ada9349896670b1eba0f94, type: 2}
+    _level: 100
+  - _base: {fileID: 11400000, guid: 693bf942c5ada9349896670b1eba0f94, type: 2}
     _level: 1
   - _base: {fileID: 11400000, guid: 0017fb2be9df2da41bf70104b7a5ec7a, type: 2}
     _level: 4
+  - _base: {fileID: 11400000, guid: 921ba8533169c7b479849751e793b89f, type: 2}
+    _level: 7
 --- !u!1001 &429064310
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16679,10 +16684,10 @@ MonoBehaviour:
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Mochila
+  m_Text: Pokemons
 --- !u!222 &687598974
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16802,8 +16807,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -118.73, y: 16.33}
-  m_SizeDelta: {x: 95.8, y: 62.22}
+  m_AnchoredPosition: {x: -113.74, y: 28.7}
+  m_SizeDelta: {x: 80.24, y: 27.57}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &741467912
 MonoBehaviour:
@@ -16827,7 +16832,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 2c5abced2d75e71498edd84661c9aaf7, type: 3}
-    m_FontSize: 17
+    m_FontSize: 12
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -16838,7 +16843,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Lv 3
+  m_Text: Lv 100
 --- !u!222 &741467913
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -17254,8 +17259,8 @@ MonoBehaviour:
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: Luchar
 --- !u!222 &1075987975
@@ -17414,8 +17419,8 @@ MonoBehaviour:
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: Movimiento 4
 --- !u!222 &1174672595
@@ -17616,8 +17621,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 67.73, y: 16.33}
-  m_SizeDelta: {x: 89.2, y: 62.22}
+  m_AnchoredPosition: {x: 71.5, y: 29.77}
+  m_SizeDelta: {x: 89.2, y: 21.45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1277097526
 MonoBehaviour:
@@ -17641,7 +17646,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 2c5abced2d75e71498edd84661c9aaf7, type: 3}
-    m_FontSize: 17
+    m_FontSize: 12
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -24449,8 +24454,8 @@ MonoBehaviour:
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: Movimiento 3
 --- !u!222 &1345403813
@@ -24833,8 +24838,8 @@ MonoBehaviour:
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 'Huir
 
@@ -25348,9 +25353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerUnit: {fileID: 2056631274}
-  playerHUD: {fileID: 46340668}
   enemyUnit: {fileID: 128198048}
-  enemyHUD: {fileID: 1702445408}
   battleDialogueBox: {fileID: 1643223532}
   partyHud: {fileID: 1440041227}
   state: 0
@@ -25814,6 +25817,7 @@ MonoBehaviour:
   _base: {fileID: 11400000, guid: 693bf942c5ada9349896670b1eba0f94, type: 2}
   _level: 7
   isPlayer: 1
+  hud: {fileID: 46340668}
   startTimeAnim: 1
   attackTimeAnim: 0.3
   dieTimeAnim: 1
@@ -26020,8 +26024,8 @@ MonoBehaviour:
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: Movimiento 2
 --- !u!222 &2111068779
