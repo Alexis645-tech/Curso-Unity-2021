@@ -39,6 +39,8 @@ public class BattleManager : MonoBehaviour
     private int currentSelectedMovement;
     private int currentSelectedPokemon;
 
+    [SerializeField] private GameObject pokeball;
+
     public void HandleStartBattle(PokemonParty playerParty, Pokemon wildPokemon)
     {
         this.playerParty = playerParty;
@@ -61,8 +63,11 @@ public class BattleManager : MonoBehaviour
 
         if (enemyUnit.Pokemon.Speed > playerUnit.Pokemon.Speed)
         {
-            StartCoroutine(battleDialogueBox.SetDialogue("El enemigo ataca primero"));
-            StartCoroutine(PerformEnemyMovement());
+            battleDialogueBox.ToggleDialogueText(true);
+            battleDialogueBox.ToggleActions(false);
+            battleDialogueBox.ToggleMovements(false);
+            yield return battleDialogueBox.SetDialogue("El enemigo ataca primero");
+            yield return PerformEnemyMovement();
         }
         else
         {
@@ -108,7 +113,7 @@ public class BattleManager : MonoBehaviour
     
     void OpenInventoryScreen()
     {
-        PlayerActionSelection();
+        StartCoroutine(ThrowPokeball());
     }
 
     public void HandleUpdate()
@@ -194,7 +199,8 @@ public class BattleManager : MonoBehaviour
         else if (Input.GetAxisRaw("Horizontal") != 0)
         {
             timeSinceLastClick = 0;
-            var oldSelectedMovement = (currentSelectedMovement + 1) % 2 + 2 * Mathf.FloorToInt(currentSelectedAction / 2);
+            var oldSelectedMovement = currentSelectedMovement;
+            currentSelectedMovement = (currentSelectedMovement + 1) % 2 + 2 * Mathf.FloorToInt(currentSelectedAction / 2);
 
             if (currentSelectedMovement >= playerUnit.Pokemon.Moves.Count)
             {
@@ -270,6 +276,7 @@ public class BattleManager : MonoBehaviour
         Move move = playerUnit.Pokemon.Moves[currentSelectedMovement];
         if (move.Pp <= 0)
         {
+            PlayerMovementSelection();
             yield break;
         }
         
@@ -367,5 +374,14 @@ public class BattleManager : MonoBehaviour
         
         yield return battleDialogueBox.SetDialogue($"¡Ve {newPokemon.Base.Name}!");
         StartCoroutine(PerformEnemyMovement());
+    }
+
+    IEnumerator ThrowPokeball()
+    {
+        state = BattleState.Busy;
+        yield return battleDialogueBox.SetDialogue($"Has lanzado una {pokeball.name}");
+
+        var pokeballInst = Instantiate(pokeball, playerUnit.transform.position, Quaternion.identity);
+        
     }
 }

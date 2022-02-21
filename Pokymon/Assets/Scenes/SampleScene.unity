@@ -458,7 +458,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 62.579987, y: -87.05}
+  m_AnchoredPosition: {x: 66.01999, y: -87.05}
   m_SizeDelta: {x: 120, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &101370621
@@ -494,7 +494,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Mochila
+  m_Text: Pokeball
 --- !u!222 &101370622
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15876,9 +15876,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemons:
   - _base: {fileID: 11400000, guid: 693bf942c5ada9349896670b1eba0f94, type: 2}
-    _level: 100
-  - _base: {fileID: 11400000, guid: 693bf942c5ada9349896670b1eba0f94, type: 2}
     _level: 1
+  - _base: {fileID: 11400000, guid: 693bf942c5ada9349896670b1eba0f94, type: 2}
+    _level: 100
   - _base: {fileID: 11400000, guid: 0017fb2be9df2da41bf70104b7a5ec7a, type: 2}
     _level: 4
   - _base: {fileID: 11400000, guid: 921ba8533169c7b479849751e793b89f, type: 2}
@@ -16104,7 +16104,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: -42.869995, y: 2.449997}
-  m_SizeDelta: {x: 267.58, y: 124.1}
+  m_SizeDelta: {x: 292.02, y: 124.1}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &504791028
 MonoBehaviour:
@@ -16120,7 +16120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding:
     m_Left: 0
-    m_Right: 0
+    m_Right: 21
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 5
@@ -16543,7 +16543,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 000000009b89cb03157cd9cf49ba843b23c721fb
+  m_ApplyToSortingLayers: 000000009b89cb03157cd9cf49ba843b23c721fb65b5ee9a
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -16651,7 +16651,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 207.57999, y: -37.05}
+  m_AnchoredPosition: {x: 211.01999, y: -37.05}
   m_SizeDelta: {x: 120, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &687598973
@@ -17226,7 +17226,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 62.579987, y: -37.05}
+  m_AnchoredPosition: {x: 66.01999, y: -37.05}
   m_SizeDelta: {x: 120, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1075987974
@@ -17583,7 +17583,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: -1695632027
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!1 &1277097524
@@ -24805,7 +24805,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 207.57999, y: -87.05}
+  m_AnchoredPosition: {x: 211.01999, y: -87.05}
   m_SizeDelta: {x: 120, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1389645937
@@ -25358,6 +25358,7 @@ MonoBehaviour:
   partyHud: {fileID: 1440041227}
   state: 0
   timeBetweenClicks: 0.5
+  pokeball: {fileID: 6929387849857067654, guid: 8d684667e5b58e841b82c6405edcb726, type: 3}
 --- !u!224 &1658326392 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 237323393984644310, guid: 99feb152da8b0804ca2d8249a732603d, type: 3}

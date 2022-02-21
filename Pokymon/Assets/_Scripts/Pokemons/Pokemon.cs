@@ -101,7 +101,7 @@ public class Pokemon
             return movesWithPp[randID];
         }
         //No hay Pps
-        //TODO: implementar combate, que hace daño enemigo y a ti mismo
+        //TODO: implementar combate, que hace daño al enemigo y a ti mismo
         return null;
     }
 }
