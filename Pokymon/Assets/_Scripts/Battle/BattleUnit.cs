@@ -24,7 +24,7 @@ public class BattleUnit : MonoBehaviour
     private Vector3 initialPosition;
     private Color initialColor;
 
-    [SerializeField] private float startTimeAnim, attackTimeAnim, dieTimeAnim, hitTimeAnim;
+    [SerializeField] private float startTimeAnim, attackTimeAnim, dieTimeAnim, hitTimeAnim, capturedTimeAnim = 0.5f;
 
     private void Awake()
     {
@@ -69,5 +69,23 @@ public class BattleUnit : MonoBehaviour
         var seq = DOTween.Sequence();
         seq.Append(pokemonImage.transform.DOLocalMoveY(initialPosition.y - 200, dieTimeAnim));
         seq.Join(pokemonImage.DOFade(0f, dieTimeAnim));
+    }
+
+    public IEnumerator PlayCapturedAnimation()
+    {
+        var seq = DOTween.Sequence();
+        seq.Append(pokemonImage.DOFade(0, capturedTimeAnim));
+        seq.Join(transform.DOScale(new Vector3(0.25f, 0.25f, 1f), capturedTimeAnim));
+        seq.Join(transform.DOLocalMoveY(initialPosition.y + 50f, capturedTimeAnim));
+        yield return seq.WaitForCompletion();
+    }
+    
+    public IEnumerator PlayBreakOutAnimation()
+    {
+        var seq = DOTween.Sequence();
+        seq.Append(pokemonImage.DOFade(1, capturedTimeAnim));
+        seq.Join(transform.DOScale(new Vector3(1f, 1f, 1f), capturedTimeAnim));
+        seq.Join(transform.DOLocalMoveY(initialPosition.y, capturedTimeAnim));
+        yield return seq.WaitForCompletion();
     }
 }

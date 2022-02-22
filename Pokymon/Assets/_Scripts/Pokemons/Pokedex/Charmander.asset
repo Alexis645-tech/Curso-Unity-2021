@@ -17,8 +17,7 @@ MonoBehaviour:
   description: Pokemon fuego
   frontSprite: {fileID: 21300000, guid: 412b85e5348f7b441ad819414b916c3f, type: 3}
   backSprite: {fileID: 21300000, guid: 860a06182b1e8a34f9870613af5967ba, type: 3}
-  type1: 2
-  type2: 0
+  catchRate: 45
   maxHP: 39
   attack: 52
   defense: 43

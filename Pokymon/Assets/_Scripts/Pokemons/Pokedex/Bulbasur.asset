@@ -17,8 +17,7 @@ MonoBehaviour:
   description: Pokemon planta
   frontSprite: {fileID: 21300000, guid: 8bfa43867ec66904aa1650619e42cb25, type: 3}
   backSprite: {fileID: 21300000, guid: 15b350f3037570c40b08ee19abc71a27, type: 3}
-  type1: 5
-  type2: 8
+  catchRate: 45
   maxHP: 45
   attack: 49
   defense: 49
