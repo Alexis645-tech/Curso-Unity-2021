@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "Pokemon", menuName = "Pokemon/Nuevo Pokemon")]
 public class PokemonBase : ScriptableObject
@@ -33,6 +34,8 @@ public class PokemonBase : ScriptableObject
     [SerializeField] private int spAttack;
     [SerializeField] private int spDefense;
     [SerializeField] private int speed;
+    [SerializeField] private int expBase;
+    [SerializeField] private GrowthRate growthRate;
 
     public int MaxHp => maxHP;
     public int Attack => attack;
@@ -40,9 +43,69 @@ public class PokemonBase : ScriptableObject
     public int SpAttack => spAttack;
     public int SpDefense => spDefense;
     public int Speed => speed;
+    public int ExpBase => expBase;
+    public GrowthRate GrowthRate => growthRate;
 
     [SerializeField] private List<LearnableMove> learnableMoves;
     public List<LearnableMove> LearnableMoves => learnableMoves;
+
+
+    public int GetNecessaryExpForLevel(int level)
+    {
+        switch (growthRate)
+        {
+            case GrowthRate.Fast:
+                return Mathf.FloorToInt(4 * Mathf.Pow(level, 3) / 5);
+                break;
+            case GrowthRate.MediumFast:
+                return Mathf.FloorToInt(Mathf.Pow(level, 3));
+                break;
+            case GrowthRate.MediumSlow:
+                return Mathf.FloorToInt(6 * Mathf.Pow(level, 3)/5-15*Mathf.Pow(level, 2) + 
+                                        100*level - 140);
+                break;
+            case GrowthRate.Slow:
+                return Mathf.FloorToInt(5 * Mathf.Pow(level, 3) / 4);
+                break;
+            case GrowthRate.Erratic:
+                if (level < 50)
+                {
+                    return Mathf.FloorToInt(5 * Mathf.Pow(level, 3) *(100-level)/50);
+                }else if (level < 68)
+                {
+                    return Mathf.FloorToInt(5 * Mathf.Pow(level, 3) *(150-level)/100);
+                }else if (level < 98)
+                {
+                    return Mathf.FloorToInt(5 * Mathf.Pow(level, 3) *
+                                            Mathf.FloorToInt((1911-10*level)/3)/500);
+                }
+                else
+                {
+                    return Mathf.FloorToInt(5 * Mathf.Pow(level, 3) *(160-level)/100);
+                }
+                break;
+            case GrowthRate.Fluctuating:
+                if (level < 15)
+                {
+                    return Mathf.FloorToInt(5 * Mathf.Pow(level, 3) *(Mathf.FloorToInt((level+1)/3)+24)/50);
+                }else if (level < 36)
+                {
+                    return Mathf.FloorToInt(5 * Mathf.Pow(level, 3) *(level+14)/50);
+                }
+                else
+                {
+                    return Mathf.FloorToInt(5 * Mathf.Pow(level, 3) *(Mathf.FloorToInt((level/2)/3)+32)/50);
+                }
+                break;
+        }
+
+        return -1;
+    }
+}
+
+public enum GrowthRate
+{
+    Erratic, Fast, MediumFast, MediumSlow, Slow, Fluctuating
 }
 
 public enum PokemonType

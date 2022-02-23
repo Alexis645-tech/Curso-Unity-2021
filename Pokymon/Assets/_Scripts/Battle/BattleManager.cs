@@ -18,6 +18,13 @@ public enum BattleState
     ItemSelectScreen,
     FinishBattle
 }
+
+public enum BattleTYpe
+{
+    WildPOkemon,
+    Trainer,
+    Leader
+}
 public class BattleManager : MonoBehaviour
 {
     [SerializeField] private BattleUnit playerUnit;
@@ -29,6 +36,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private PartyHUD partyHud;
 
     public BattleState state;
+    public BattleTYpe battleTYpe;
 
     private float timeSinceLastClick;
     [SerializeField] private float timeBetweenClicks = 1.0f;
@@ -41,14 +49,24 @@ public class BattleManager : MonoBehaviour
     private int currentSelectedAction;
     private int currentSelectedMovement;
     private int currentSelectedPokemon;
+    
+    private int scapeAttempts;
 
     [SerializeField] private GameObject pokeball;
 
     public void HandleStartBattle(PokemonParty playerParty, Pokemon wildPokemon)
     {
+        battleTYpe = BattleTYpe.WildPOkemon;
+        scapeAttempts = 0;
         this.playerParty = playerParty;
         this.wildPokemon = wildPokemon;
         StartCoroutine(SetupBattle());
+    } 
+
+    public void HandleStartTrainerBattle(PokemonParty playerParty, PokemonParty trainerParty, bool isLeader)
+    {
+        battleTYpe = (isLeader ? BattleTYpe.Leader : BattleTYpe.Trainer);
+        //TODO: El resto de batalla contra NPC
     }
 
     public IEnumerator SetupBattle()
@@ -116,6 +134,7 @@ public class BattleManager : MonoBehaviour
     
     void OpenInventoryScreen()
     {
+        battleDialogueBox.ToggleActions(false);
         StartCoroutine(ThrowPokeball());
     }
 
@@ -179,7 +198,7 @@ public class BattleManager : MonoBehaviour
             }else if (currentSelectedAction == 3)
             {
                 //Huir
-                OnBattleFinish(false);
+                StartCoroutine(TryToScapeFromBattle());
             }
         }
     }
@@ -323,10 +342,7 @@ public class BattleManager : MonoBehaviour
             
         if (damageDescription.Fainted)
         {
-            yield return battleDialogueBox.SetDialogue($"{target.Pokemon.Base.Name} se ha debilitado");
-            target.PlayFaintAnimation();
-            yield return new WaitForSeconds(1.5f);
-            CheckForBattleFinish(target);
+            yield return HandlePokemonFainted(target);
         }
     }
 
@@ -385,6 +401,13 @@ public class BattleManager : MonoBehaviour
     IEnumerator ThrowPokeball()
     {
         state = BattleState.Busy;
+
+        if (battleTYpe != BattleTYpe.WildPOkemon)
+        {
+            yield return battleDialogueBox.SetDialogue("No puedes robar los pokemons de otros entrenadores");
+            state = BattleState.LoseTurn;
+            yield break;
+        }
         yield return battleDialogueBox.SetDialogue($"Has lanzado una {pokeball.name}");
 
         var pokeballInst = Instantiate(pokeball, playerUnit.transform.position + 
@@ -408,6 +431,15 @@ public class BattleManager : MonoBehaviour
         {
             yield return battleDialogueBox.SetDialogue($"¡{enemyUnit.Pokemon.Base.Name} capturado!");
             yield return pokeballSpt.DOFade(0, 1.5f).WaitForCompletion();
+            
+            if (playerParty.AddPokemonToParty(enemyUnit.Pokemon))
+            {
+                yield return battleDialogueBox.SetDialogue($"{enemyUnit.Pokemon.Base.Name} se ha añadido a tu equipo.");
+            }
+            else
+            {
+                yield return battleDialogueBox.SetDialogue("En algun momento, lo enviaremos al pc de bill...");
+            }
             
             Destroy(pokeballInst);
             BattleFinish(true);
@@ -456,5 +488,64 @@ public class BattleManager : MonoBehaviour
         }
 
         return shakeCount;
+    }
+    
+    IEnumerator TryToScapeFromBattle()
+    {
+        state = BattleState.Busy;
+        if (battleTYpe != BattleTYpe.WildPOkemon)
+        {
+            yield return battleDialogueBox.SetDialogue("No puedes huir de combates contra entrenadores pokemons");
+            state = BattleState.LoseTurn;
+            yield break;
+        }
+        
+        //Es contra un pokemon salvaje
+        scapeAttempts++;
+        int playerSpeed = playerUnit.Pokemon.Speed;
+        int enemySpeed = enemyUnit.Pokemon.Speed;
+
+        if (playerSpeed <= enemySpeed)
+        {
+            yield return battleDialogueBox.SetDialogue("Has escapado con éxito");
+            yield return new WaitForSeconds(1f);
+            OnBattleFinish(true);
+        }
+        else
+        {
+            float oddsScape = (Mathf.FloorToInt(playerSpeed * 128 / enemySpeed) + 30 * scapeAttempts) % 256;
+            if (Random.Range(0, 256) < oddsScape)
+            {
+                yield return battleDialogueBox.SetDialogue("Has escapado con éxito");
+                yield return new WaitForSeconds(1f);
+                OnBattleFinish(true);
+            }
+            else
+            {
+                yield return battleDialogueBox.SetDialogue("No puedes escapar");
+                state = BattleState.LoseTurn;
+            }
+        }
+    }
+
+    IEnumerator HandlePokemonFainted(BattleUnit faintedUnit)
+    {
+        yield return battleDialogueBox.SetDialogue($"{faintedUnit.Pokemon.Base.Name} se ha debilitado");
+        faintedUnit.PlayFaintAnimation();
+        yield return new WaitForSeconds(1.5f);
+
+        if (!faintedUnit.IsPlayer)
+        {
+            int expBase = faintedUnit.Pokemon.Base.ExpBase;
+            int level = faintedUnit.Pokemon.Level;
+            float multiplier = (battleTYpe == BattleTYpe.WildPOkemon ? 1 : 1.5f);
+            int wonExp = Mathf.FloorToInt(expBase * level * multiplier / 7);
+
+            playerUnit.Pokemon.Experience *= wonExp;
+            yield return battleDialogueBox.SetDialogue($"{playerUnit.Pokemon.Base.Name} ha ganado {wonExp} puntos de experiencia");
+            yield return new WaitForSeconds(1f);
+        }
+        
+        CheckForBattleFinish(faintedUnit);
     }
 }
