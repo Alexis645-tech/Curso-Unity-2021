@@ -120,6 +120,19 @@ public class Pokemon
         //TODO: implementar combate, que hace daño al enemigo y a ti mismo
         return null;
     }
+
+    public bool NeedsToLevelUp()
+    {
+        if (Experience > Base.GetNecessaryExpForLevel(_level + 1))
+        {
+            _level++;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
 
 public class DamageDescription

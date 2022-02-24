@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,23 +9,19 @@ public class HealthBar : MonoBehaviour
 {
     [SerializeField]private GameObject healthBar;
 
-    public Color barColor
+    public Color barColor(float finalScale)
     {
-        get
+        if (finalScale < 0.15f)
         {
-            var localScale = healthBar.transform.localScale.x;
-            if (localScale < 0.15f)
-            {
                 return Color.red;
-            }
-            else if (localScale < 0.5f)
-            {
-                return Color.yellow;
-            }
-            else
-            {
+        }
+        else if (finalScale < 0.5f) 
+        {
+                return Color.yellow; 
+        }
+        else
+        {
                 return Color.green;
-            }
         }
     }
 
@@ -35,12 +32,12 @@ public class HealthBar : MonoBehaviour
     public void SetHP(float normalizedValue)
     {
         healthBar.transform.localScale = new Vector3(normalizedValue, 1.0f);
-        healthBar.GetComponent<Image>().color = barColor;
+        healthBar.GetComponent<Image>().color = barColor(normalizedValue);
     }
 
     public IEnumerator SetSmoothHp(float normalizedValue)
     {
-        float currentScale = healthBar.transform.localScale.x;
+        /*float currentScale = healthBar.transform.localScale.x;
         float updateQuantity = currentScale - normalizedValue;
         while (currentScale - normalizedValue > Mathf.Epsilon)
         {
@@ -49,7 +46,12 @@ public class HealthBar : MonoBehaviour
             healthBar.GetComponent<Image>().color = barColor;
             yield return null;
         }
-
         healthBar.transform.localScale = new Vector3(normalizedValue, 1);
+        */
+
+        var seq = DOTween.Sequence();
+        seq.Append(healthBar.transform.DOScaleX(normalizedValue, 1f)); 
+        seq.Join(healthBar.GetComponent<Image>().DOColor(barColor(normalizedValue), 1f));
+        yield return seq.WaitForCompletion();
     }
 }

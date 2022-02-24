@@ -543,7 +543,17 @@ public class BattleManager : MonoBehaviour
 
             playerUnit.Pokemon.Experience *= wonExp;
             yield return battleDialogueBox.SetDialogue($"{playerUnit.Pokemon.Base.Name} ha ganado {wonExp} puntos de experiencia");
+            yield return playerUnit.Hud.SetExpSmooth();
             yield return new WaitForSeconds(1f);
+            
+            //Check new level
+            while (playerUnit.Pokemon.NeedsToLevelUp())
+            {
+                playerUnit.Hud.SetLevelText();
+                yield return playerUnit.Hud.UpdatePokemonData(playerUnit.Pokemon.HP);
+                yield return battleDialogueBox.SetDialogue($"¡{playerUnit.Pokemon.Base.Name} sube de nivel!");
+                yield return playerUnit.Hud.SetExpSmooth(true);
+            }
         }
         
         CheckForBattleFinish(faintedUnit);
