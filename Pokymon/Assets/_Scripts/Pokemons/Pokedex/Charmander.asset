@@ -33,3 +33,7 @@ MonoBehaviour:
     level: 5
   - _move: {fileID: 11400000, guid: 1fc0b9bcc19d07f47a645293b95c8028, type: 2}
     level: 7
+  - _move: {fileID: 11400000, guid: 60f6cd829b61f4f418cd81cf73265b0d, type: 2}
+    level: 10
+  - _move: {fileID: 11400000, guid: 0ac1ff7a8f82b7b4a93636a96a85f692, type: 2}
+    level: 16

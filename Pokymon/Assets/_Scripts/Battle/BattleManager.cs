@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Rendering.VirtualTexturing;
@@ -16,6 +17,7 @@ public enum BattleState
     LoseTurn,
     PerformMovement,
     ItemSelectScreen,
+    ForgetMovement,
     FinishBattle
 }
 
@@ -34,6 +36,8 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private BattleDialogueBox battleDialogueBox;
 
     [SerializeField] private PartyHUD partyHud;
+
+    [SerializeField] private SelectionMovementUI selectMoveUI;
 
     public BattleState state;
     public BattleTYpe battleTYpe;
@@ -141,7 +145,7 @@ public class BattleManager : MonoBehaviour
     public void HandleUpdate()
     {
         timeSinceLastClick += Time.deltaTime;
-        if (battleDialogueBox.isWriting)
+        if (timeSinceLastClick < timeBetweenClicks || battleDialogueBox.isWriting)
         {
             return;
         }
@@ -158,15 +162,14 @@ public class BattleManager : MonoBehaviour
         }else if (state == BattleState.LoseTurn)
         {
             StartCoroutine(PerformEnemyMovement());
+        }else if (state == BattleState.ForgetMovement)
+        {
+            selectMoveUI.HandleForgetMoveSelection();
         }
     }
     
     void HandlePlayerActionSelection()
     {
-        if (timeSinceLastClick < timeBetweenClicks)
-        {
-            return;
-        }
         if (Input.GetAxisRaw("Vertical") != 0)
         {
             timeSinceLastClick = 0;
@@ -205,11 +208,6 @@ public class BattleManager : MonoBehaviour
     
     void HandlePlayerMovementSelection()
     {
-        if (timeSinceLastClick < timeBetweenClicks)
-        {
-            return;
-        }
-
         if (Input.GetAxisRaw("Vertical") != 0)
         {
             timeSinceLastClick = 0;
@@ -250,11 +248,6 @@ public class BattleManager : MonoBehaviour
     
     void HandlePlayerPartySelection()
     {
-        if (timeSinceLastClick < timeBetweenClicks)
-        {
-            return;
-        }
-
         if (Input.GetAxisRaw("Vertical") != 0)
         {
             timeSinceLastClick = 0;
@@ -552,10 +545,38 @@ public class BattleManager : MonoBehaviour
                 playerUnit.Hud.SetLevelText();
                 yield return playerUnit.Hud.UpdatePokemonData(playerUnit.Pokemon.HP);
                 yield return battleDialogueBox.SetDialogue($"¡{playerUnit.Pokemon.Base.Name} sube de nivel!");
+
+                //Intentar aprender un nuevo movimiento
+                var newLearnableMove = playerUnit.Pokemon.GetLearnableMoveAtCurrentLevel();
+                if (newLearnableMove != null)
+                {
+                    if (playerUnit.Pokemon.Moves.Count < PokemonBase.NUMBER_OF_LEARNABLE_MOVES)
+                    {
+                        playerUnit.Pokemon.LearnMove(newLearnableMove);
+                        yield return battleDialogueBox.SetDialogue($"{playerUnit.Pokemon.Base.Name} ha aprendido {newLearnableMove.Move.Name}");
+                        battleDialogueBox.SetPokemonMovements(playerUnit.Pokemon.Moves);
+                    }
+                    else
+                    {
+                        yield return battleDialogueBox.SetDialogue($"{playerUnit.Pokemon.Base.Name} intenta aprender {newLearnableMove.Move.Name}");
+                        yield return battleDialogueBox.SetDialogue($"Pero no puede aprender mas de {PokemonBase.NUMBER_OF_LEARNABLE_MOVES} movimientos");
+                        yield return ChooseMovementToForget(playerUnit.Pokemon, newLearnableMove.Move);
+                        yield return new WaitUntil(() => state != BattleState.ForgetMovement);
+                    }
+                }
                 yield return playerUnit.Hud.SetExpSmooth(true);
             }
         }
         
         CheckForBattleFinish(faintedUnit);
+    }
+
+    IEnumerator ChooseMovementToForget(Pokemon learner, MoveBase newMove)
+    {
+        state = BattleState.Busy;
+        yield return battleDialogueBox.SetDialogue("Selecciona el movimiento que quieres olvidar");
+        selectMoveUI.gameObject.SetActive(true);
+        selectMoveUI.SetMovements(learner.Moves.Select(mv => mv.Base).ToList(), newMove);
+        state = BattleState.ForgetMovement;
     }
 }
