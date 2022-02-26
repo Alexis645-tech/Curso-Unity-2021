@@ -55,6 +55,7 @@ public class BattleManager : MonoBehaviour
     private int currentSelectedPokemon;
     
     private int scapeAttempts;
+    private MoveBase moveToLearn;
 
     [SerializeField] private GameObject pokeball;
 
@@ -164,8 +165,38 @@ public class BattleManager : MonoBehaviour
             StartCoroutine(PerformEnemyMovement());
         }else if (state == BattleState.ForgetMovement)
         {
-            selectMoveUI.HandleForgetMoveSelection();
+            selectMoveUI.HandleForgetMoveSelection((moveIndex) =>
+            {
+                if (moveIndex < 0)
+                {
+                    timeSinceLastClick = 0;
+                    return;
+                }
+
+                StartCoroutine(ForgetOldMove(moveIndex));
+            });
         }
+    }
+
+    IEnumerator ForgetOldMove(int moveIndex)
+    {
+        selectMoveUI.gameObject.SetActive(false);
+        if (moveIndex == PokemonBase.NUMBER_OF_LEARNABLE_MOVES)
+        {
+            //No aprendo el nuevo movimiento
+           yield return battleDialogueBox.SetDialogue($"{playerUnit.Pokemon.Base.Name} no ha aprendido {moveToLearn.Name}");
+        }
+        else
+        {
+            //Olvido el seleccionado y aprendo el nuevo
+            var selectedMove = playerUnit.Pokemon.Moves[moveIndex].Base;
+            yield return battleDialogueBox.SetDialogue($"{playerUnit.Pokemon.Base.Name} olvidó {selectedMove.Name} y aprendió {moveToLearn.Name}");
+            playerUnit.Pokemon.Moves[moveIndex] = new Move(moveToLearn);
+        }
+
+        moveToLearn = null;
+        //TODO: Revisar cuando haya entrenadores
+        state = BattleState.FinishBattle;
     }
     
     void HandlePlayerActionSelection()
@@ -577,6 +608,7 @@ public class BattleManager : MonoBehaviour
         yield return battleDialogueBox.SetDialogue("Selecciona el movimiento que quieres olvidar");
         selectMoveUI.gameObject.SetActive(true);
         selectMoveUI.SetMovements(learner.Moves.Select(mv => mv.Base).ToList(), newMove);
+        moveToLearn = newMove;
         state = BattleState.ForgetMovement;
     }
 }

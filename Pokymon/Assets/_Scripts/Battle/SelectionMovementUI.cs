@@ -24,7 +24,7 @@ public class SelectionMovementUI : MonoBehaviour
         movementTexts[pokemonMoves.Count].text = newMove.Name;
     }
 
-    public void HandleForgetMoveSelection()
+    public void HandleForgetMoveSelection(Action<int> onSelected)
     {
         if (Input.GetAxisRaw("Vertical") != 0)
         {
@@ -32,6 +32,12 @@ public class SelectionMovementUI : MonoBehaviour
             currentSelectedMovement -= direction;
             currentSelectedMovement = Mathf.Clamp(currentSelectedMovement, 0, PokemonBase.NUMBER_OF_LEARNABLE_MOVES);
             UpdateColorForgetMoveSelection();
+            onSelected?.Invoke(-1);
+        }
+
+        if (Input.GetAxisRaw("Submit") != 0)
+        {
+            onSelected?.Invoke(currentSelectedMovement);
         }
     }
 
