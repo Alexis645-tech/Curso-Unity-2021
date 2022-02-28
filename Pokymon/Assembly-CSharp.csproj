@@ -57,6 +57,7 @@
      <Compile Include="Assets\_Scripts\Pokemons\PokemonMapArea.cs" />
      <Compile Include="Assets\_Scripts\GameManager.cs" />
      <Compile Include="Assets\_Scripts\Battle\BattleHUD.cs" />
+     <Compile Include="Assets\_Scripts\SoundManager.cs" />
      <Reference Include="UnityEngine">
      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.2.8f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
      </Reference>

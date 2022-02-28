@@ -14,7 +14,7 @@ public class PokemonBase : ScriptableObject
     [TextArea][SerializeField] private string description;
     public string Description => description;
 
-    [SerializeField]private Sprite frontSprite;
+    [SerializeField] private Sprite frontSprite;
     [SerializeField] private Sprite backSprite;
     public Sprite FrontSprite => frontSprite;
     public Sprite BackSprite => backSprite;

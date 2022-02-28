@@ -23,12 +23,18 @@ public class BattleDialogueBox : MonoBehaviour
     public float charactersPerSecond = 10.0f;
     public bool isWriting;
 
+    public AudioClip[] characterSounds;
+
     public IEnumerator SetDialogue(string message)
     {
         isWriting = true;
         dialogueText.text = "";
         foreach (var character in message)
         {
+            if (character != ' ')
+            {
+                SoundManager.SharedInstance.RandomSoundEffect(characterSounds);
+            }
             dialogueText.text += character;
             yield return new WaitForSeconds(1 / charactersPerSecond);
         }

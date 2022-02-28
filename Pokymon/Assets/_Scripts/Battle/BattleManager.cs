@@ -59,6 +59,8 @@ public class BattleManager : MonoBehaviour
 
     [SerializeField] private GameObject pokeball;
 
+    public AudioClip attackClip, damageClip, levelUpClip, endBattleClip, pokeballClip;
+
     public void HandleStartBattle(PokemonParty playerParty, Pokemon wildPokemon)
     {
         battleTYpe = BattleTYpe.WildPOkemon;
@@ -103,6 +105,7 @@ public class BattleManager : MonoBehaviour
 
     void BattleFinish(bool playerHasWon)
     {
+        SoundManager.SharedInstance.PlaySound(endBattleClip);
         state = BattleState.FinishBattle;
         OnBattleFinish(playerHasWon);
     }
@@ -357,9 +360,11 @@ public class BattleManager : MonoBehaviour
         var oldHPValeu = target.Pokemon.HP;
             
         attacker.PlayAttackAnimation();
+        SoundManager.SharedInstance.PlaySound(attackClip);
         yield return new WaitForSeconds(1f);
         target.PlayReceiveAttackAnimation();
-            
+        SoundManager.SharedInstance.PlayMusic(damageClip);
+        
         var damageDescription = target.Pokemon.ReceiveDamage(attacker.Pokemon, move);
         yield return target.Hud.UpdatePokemonData(oldHPValeu);
         yield return ShowDamageDescription(damageDescription);
@@ -434,6 +439,7 @@ public class BattleManager : MonoBehaviour
         }
         yield return battleDialogueBox.SetDialogue($"Has lanzado una {pokeball.name}");
 
+        SoundManager.SharedInstance.PlaySound(pokeballClip);
         var pokeballInst = Instantiate(pokeball, playerUnit.transform.position + 
                                                  new Vector3(-2, 0), Quaternion.identity);
 
@@ -573,6 +579,7 @@ public class BattleManager : MonoBehaviour
             //Check new level
             while (playerUnit.Pokemon.NeedsToLevelUp())
             {
+                SoundManager.SharedInstance.PlaySound(levelUpClip);
                 playerUnit.Hud.SetLevelText();
                 yield return playerUnit.Hud.UpdatePokemonData(playerUnit.Pokemon.HP);
                 yield return battleDialogueBox.SetDialogue($"¡{playerUnit.Pokemon.Base.Name} sube de nivel!");
