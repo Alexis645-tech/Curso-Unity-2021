@@ -59,7 +59,7 @@ public class BattleManager : MonoBehaviour
 
     [SerializeField] private GameObject pokeball;
 
-    public AudioClip attackClip, damageClip, levelUpClip, endBattleClip, pokeballClip;
+    public AudioClip attackClip, damageClip, levelUpClip, endBattleClip, faintedClip, pokeballClip;
 
     public void HandleStartBattle(PokemonParty playerParty, Pokemon wildPokemon)
     {
@@ -363,7 +363,8 @@ public class BattleManager : MonoBehaviour
         SoundManager.SharedInstance.PlaySound(attackClip);
         yield return new WaitForSeconds(1f);
         target.PlayReceiveAttackAnimation();
-        SoundManager.SharedInstance.PlayMusic(damageClip);
+        SoundManager.SharedInstance.PlaySound(damageClip);
+        yield return new WaitForSeconds(0.5f);
         
         var damageDescription = target.Pokemon.ReceiveDamage(attacker.Pokemon, move);
         yield return target.Hud.UpdatePokemonData(oldHPValeu);
@@ -561,6 +562,7 @@ public class BattleManager : MonoBehaviour
     IEnumerator HandlePokemonFainted(BattleUnit faintedUnit)
     {
         yield return battleDialogueBox.SetDialogue($"{faintedUnit.Pokemon.Base.Name} se ha debilitado");
+        SoundManager.SharedInstance.PlaySound(faintedClip);
         faintedUnit.PlayFaintAnimation();
         yield return new WaitForSeconds(1.5f);
 
@@ -582,6 +584,7 @@ public class BattleManager : MonoBehaviour
                 SoundManager.SharedInstance.PlaySound(levelUpClip);
                 playerUnit.Hud.SetLevelText();
                 yield return playerUnit.Hud.UpdatePokemonData(playerUnit.Pokemon.HP);
+                yield return new WaitForSeconds(1);
                 yield return battleDialogueBox.SetDialogue($"¡{playerUnit.Pokemon.Base.Name} sube de nivel!");
 
                 //Intentar aprender un nuevo movimiento

@@ -635,6 +635,8 @@ MonoBehaviour:
   playerController: {fileID: 395247781}
   battleManager: {fileID: 1650868640}
   worldMainCamera: {fileID: 519420031}
+  worldClip: {fileID: 8300000, guid: 3eb3349832ee15c448a05bfcd3a8fbce, type: 3}
+  battleClip: {fileID: 8300000, guid: 42eca95eca33c464b93c6797d20a673c, type: 3}
 --- !u!4 &144795079
 Transform:
   m_ObjectHideFlags: 0
@@ -17180,7 +17182,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -17455,7 +17457,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 814542944}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!4 &814542948
 Transform:
   m_ObjectHideFlags: 0
@@ -26022,9 +26024,13 @@ MonoBehaviour:
   ppText: {fileID: 1165251388}
   typeText: {fileID: 1448276188}
   selectedColor: {r: 0, g: 0, b: 1, a: 1}
-  timeToWaitAfterText: 0.5
-  charactersPerSecond: 10
+  timeToWaitAfterText: 1
+  charactersPerSecond: 20
   isWriting: 0
+  characterSounds:
+  - {fileID: 8300000, guid: 4cd9bacaab545b7468257b1c60624c02, type: 3}
+  - {fileID: 8300000, guid: 0b6c9c514023e524594a171a8f4bca92, type: 3}
+  - {fileID: 8300000, guid: 860c6252f9ce6b34da8df32e4de419c1, type: 3}
 --- !u!1 &1650868638
 GameObject:
   m_ObjectHideFlags: 0
@@ -26080,6 +26086,12 @@ MonoBehaviour:
   battleTYpe: 0
   timeBetweenClicks: 0.5
   pokeball: {fileID: 6929387849857067654, guid: 8d684667e5b58e841b82c6405edcb726, type: 3}
+  attackClip: {fileID: 8300000, guid: 2c97237da44cdbf489e7fd63768103d3, type: 3}
+  damageClip: {fileID: 8300000, guid: d7550df87e06fba479f77c93f02e5a58, type: 3}
+  levelUpClip: {fileID: 8300000, guid: 21c5490641d0e5b46924d85843458a1f, type: 3}
+  endBattleClip: {fileID: 8300000, guid: d5cf78dd74f78cc4d988480d28ce024a, type: 3}
+  faintedClip: {fileID: 8300000, guid: d7550df87e06fba479f77c93f02e5a58, type: 3}
+  pokeballClip: {fileID: 8300000, guid: 26fdf572d8ba64140aecd1cf2d4a2897, type: 3}
 --- !u!224 &1658326392 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 237323393984644310, guid: 99feb152da8b0804ca2d8249a732603d, type: 3}
@@ -26559,7 +26571,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectsSource: {fileID: 520087659}
   musicSource: {fileID: 779432851}
-  pitchRange: {x: 0.9, y: 1.5}
+  pitchRange: {x: 2.1, y: 3}
 --- !u!4 &2055587826
 Transform:
   m_ObjectHideFlags: 0

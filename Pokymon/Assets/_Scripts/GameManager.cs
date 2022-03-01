@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         _gameState = GameState.Travel;
+        SoundManager.SharedInstance.PlayMusic(worldClip);
     }
 
     private void Start()
