@@ -50,14 +50,15 @@
      <Compile Include="Assets\_Scripts\Battle\HealthBar.cs" />
      <Compile Include="Assets\_Scripts\Battle\BattleManager.cs" />
      <Compile Include="Assets\_Scripts\Pokemons\PokemonBase.cs" />
-     <Compile Include="Assets\_Scripts\SoundManager.cs" />
+     <Compile Include="Assets\_Scripts\Managers\SoundManager.cs" />
      <Compile Include="Assets\_Scripts\Moves\Move.cs" />
      <Compile Include="Assets\_Scripts\Battle\BattleUnit.cs" />
      <Compile Include="Assets\_Scripts\Moves\MoveBase.cs" />
      <Compile Include="Assets\_Scripts\Battle\SelectionMovementUI.cs" />
      <Compile Include="Assets\_Scripts\Pokemons\PokemonMapArea.cs" />
-     <Compile Include="Assets\_Scripts\GameManager.cs" />
+     <Compile Include="Assets\_Scripts\Managers\GameManager.cs" />
      <Compile Include="Assets\_Scripts\Battle\BattleHUD.cs" />
+     <Compile Include="Assets\_Scripts\Managers\ColorManager.cs" />
      <None Include="Assets\Audio\8Bit Music Album - 051321\Notes.txt" />
      <Reference Include="UnityEngine">
      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.2.8f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

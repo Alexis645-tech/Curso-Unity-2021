@@ -11,8 +11,6 @@ public class PartyMemberHUD : MonoBehaviour
     [SerializeField] private Image pokemonImage;
 
     private Pokemon _pokemon;
-    
-    [SerializeField] Color selectedColor = Color.blue;
 
     public void SetPokemonData(Pokemon pokemon)
     {
@@ -37,7 +35,7 @@ public class PartyMemberHUD : MonoBehaviour
     {
         if (selected)
         {
-            nameText.color = selectedColor;
+            nameText.color = ColorManager.SharedInstance.selectedColor;
         }
         else
         {
