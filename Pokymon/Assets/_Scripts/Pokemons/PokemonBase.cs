@@ -114,6 +114,11 @@ public enum PokemonType
     None, Normal, Fire, Water, Electric, Grass, Ice, Fight, Poison, Ground, Fly, Psychic, Bug, Rock, Ghost, Dragon, Dark, Steel, Fairy
 }
 
+public enum Stat
+{
+    Attack, Defense, SpAttack, SpDefense, Speed
+}
+
 public class TypeMatrix
 {
     //TODO: completar el resto de la matriz

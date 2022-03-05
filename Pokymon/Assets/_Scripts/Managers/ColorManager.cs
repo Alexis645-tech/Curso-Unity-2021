@@ -12,4 +12,36 @@ public class ColorManager : MonoBehaviour
     {
         SharedInstance = this;
     }
+    
+    public Color barColor(float finalScale)
+    {
+        if (finalScale < 0.15f)
+        {
+            return Color.red;
+        }
+        else if (finalScale < 0.5f) 
+        {
+            return Color.yellow; 
+        }
+        else
+        {
+            return Color.green;
+        }
+    }
+    
+    public Color PpColor(float finalScale)
+    {
+        if (finalScale < 0.2f)
+        {
+            return Color.red;
+        }
+        else if (finalScale < 0.5f) 
+        {
+            return Color.yellow; 
+        }
+        else
+        {
+            return Color.black;
+        }
+    }
 }
