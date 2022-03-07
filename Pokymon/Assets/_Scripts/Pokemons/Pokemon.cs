@@ -99,7 +99,7 @@ public class Pokemon
         int statValue = Stats[stat];
         int boost = StatsBoosted[stat];
         
-        float multiplier = Mathf.Min(1.0f + Mathf.Abs(boost) / 2.0f, 4.0f);
+        float multiplier = 1.0f + Mathf.Abs(boost) / 2.0f;
 
         if (boost >= 0)
         {
@@ -110,6 +110,14 @@ public class Pokemon
             statValue = Mathf.FloorToInt(statValue / multiplier);
         }
         return statValue;
+    }
+
+    public void ApplyBoost(StatBoosting boost)
+    {
+        var stat = boost.stat;
+            var value = boost.boost;
+
+            StatsBoosted[stat] = Mathf.Clamp(StatsBoosted[stat] + value, -6, 6);
     }
     
     public int MaxHp { get; private set; }
