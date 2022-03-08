@@ -395,6 +395,8 @@
 "Assets/_Scripts/Pokemons/PokemonBase.cs"
 "Assets/_Scripts/Pokemons/PokemonMapArea.cs"
 "Assets/_Scripts/Pokemons/PokemonParty.cs"
+"Assets/_Scripts/StatusCondition/StatusCondition.cs"
+"Assets/_Scripts/StatusCondition/StatusConditionFactory.cs"
 -langversion:9.0
 
 /deterministic

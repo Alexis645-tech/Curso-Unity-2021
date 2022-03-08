@@ -27,6 +27,9 @@ public class Pokemon
 
     public Dictionary<Stat, int> Stats { get; private set; }
     public Dictionary<Stat, int> StatsBoosted { get; private set; }
+    public StatusCondition StatusCondition { get; set; }
+    public Queue<string> StatusChangeMessages { get; private set; } = new Queue<string>();
+    public bool HasHpChanged { get; set; } = false;
 
     //Vida actual del pokemon
     private int _hp;
@@ -75,7 +78,13 @@ public class Pokemon
         }
         CalculateStats();
         _hp = MaxHp;
+        
+        ResetBoostings();
+    }
 
+    void ResetBoostings()
+    {
+        StatusChangeMessages = new Queue<string>();
         StatsBoosted = new Dictionary<Stat, int>()
         {
             {Stat.Attack, 0}, {Stat.Defense, 0}, {Stat.SpAttack, 0}, {Stat.SpDefense, 0}, {Stat.Speed, 0}
@@ -118,6 +127,18 @@ public class Pokemon
             var value = boost.boost;
 
             StatsBoosted[stat] = Mathf.Clamp(StatsBoosted[stat] + value, -6, 6);
+            if (value > 0)
+            {
+                StatusChangeMessages.Enqueue($"{Base.Name} ha incrementado su {stat}");
+            }
+            else if (value < 0)
+            {
+                StatusChangeMessages.Enqueue($"{Base.Name} ha reducido su {stat}");
+            }
+            else
+            {
+                StatusChangeMessages.Enqueue($"{Base.Name} no nota ningún efecto");
+            }
     }
     
     public int MaxHp { get; private set; }
@@ -150,13 +171,29 @@ public class Pokemon
         float modifiers = Random.Range(0.85f, 1.0f) * type1 * type2 * critical;
         float baseDamage = ((2 * attacker.Level / 5f + 2) * move.Base.Power * ((float)attack/defense)) / 50f + 2;
         int totalDamage = Mathf.FloorToInt(baseDamage * modifiers);
-        HP -= totalDamage;
+       
+        UpdateHp(totalDamage);
         if (HP <= 0)
         {
-            HP = 0;
             damageDescription.Fainted = true;
         }
         return damageDescription;
+    }
+
+    public void UpdateHp(int damage)
+    {
+        HasHpChanged = true;
+        HP -= damage;
+        if (HP <= 0)
+        {
+            HP = 0;
+        }
+    }
+
+    public void SetConditionStatus(StatusConditionID id)
+    {
+        StatusCondition = StatusConditionFactory.StatusConditions[id];
+        StatusChangeMessages.Enqueue($"{Base.Name} {StatusCondition.StartMessage}");
     }
 
     public Move RandomMove()
@@ -199,6 +236,16 @@ public class Pokemon
             return;
         }
         Moves.Add(new Move(learnableMove.Move));
+    }
+
+    public void OnFinishTurn()
+    {
+        StatusCondition?.OnFinishTurn?.Invoke(this);
+    }
+
+    public void OnBattleFinish()
+    {
+        ResetBoostings();
     }
 }
 

@@ -89,17 +89,26 @@ public class BattleManager : MonoBehaviour
         
         yield return battleDialogueBox.SetDialogue($"Un {enemyUnit.Pokemon.Base.Name} salvaje a aparecido.");
 
+        yield return ChooseFirstTurn(true);
+    }
+
+    IEnumerator ChooseFirstTurn(bool showFirstMsg = false)
+    {
         if (enemyUnit.Pokemon.Speed > playerUnit.Pokemon.Speed)
         {
             battleDialogueBox.ToggleDialogueText(true);
             battleDialogueBox.ToggleActions(false);
             battleDialogueBox.ToggleMovements(false);
-            yield return battleDialogueBox.SetDialogue("El enemigo ataca primero");
+            if (showFirstMsg)
+            {
+                yield return battleDialogueBox.SetDialogue("El enemigo ataca primero");
+            }
+
             yield return PerformEnemyMovement();
         }
         else
         {
-            PlayerActionSelection();
+           PlayerActionSelection(); 
         }
     }
 
@@ -107,6 +116,7 @@ public class BattleManager : MonoBehaviour
     {
         SoundManager.SharedInstance.PlaySound(endBattleClip);
         state = BattleState.FinishBattle;
+        playerParty.Pokemons.ForEach(p => p.OnBattleFinish());
         OnBattleFinish(playerHasWon);
     }
 
@@ -357,26 +367,12 @@ public class BattleManager : MonoBehaviour
         move.Pp--;
         yield return battleDialogueBox.SetDialogue($"{attacker.Pokemon.Base.Name} ha usado {move.Base.Name}");
 
-        attacker.PlayAttackAnimation();
-        SoundManager.SharedInstance.PlaySound(attackClip);
-        yield return new WaitForSeconds(1f);
-        target.PlayReceiveAttackAnimation();
-        SoundManager.SharedInstance.PlaySound(damageClip);
-        yield return new WaitForSeconds(0.5f);
+        yield return RunMoveAnims(attacker, attackClip);
+        yield return RunMoveAnims(target, damageClip);
         
         if (move.Base.MoveType == MoveType.Stats)
         {
-            foreach (var effect in move.Base.Effects.Boostings)
-            {
-                if (effect.target == MoveTarget.Self)
-                {
-                    attacker.Pokemon.ApplyBoost(effect);
-                }
-                else
-                {
-                    target.Pokemon.ApplyBoost(effect);
-                }
-            }
+            yield return RunMoveStats(attacker.Pokemon, target.Pokemon, move);
         }
         else
         {
@@ -389,6 +385,61 @@ public class BattleManager : MonoBehaviour
         if (target.Pokemon.HP <= 0)
         {
             yield return HandlePokemonFainted(target);
+        }
+
+        //Comprobar estados alterados como quemadura o envenenamiento a final de turno
+        var currentHP = attacker.Pokemon.HP;
+        attacker.Pokemon.OnFinishTurn();
+        yield return ShowStatsMessages(attacker.Pokemon);
+        yield return attacker.Hud.UpdatePokemonData(currentHP);
+        if (attacker.Pokemon.HP <= 0)
+        {
+            yield return HandlePokemonFainted(attacker);
+        }
+    }
+
+    IEnumerator RunMoveAnims(BattleUnit actor, AudioClip sound)
+    {
+        actor.PlayAttackAnimation();
+        SoundManager.SharedInstance.PlaySound(sound);
+        yield return new WaitForSeconds(1f);
+    }
+    IEnumerator RunMoveStats(Pokemon attacker, Pokemon target, Move move)
+    {
+        foreach (var boost in move.Base.Effects.Boostings)
+        {
+            if (boost.target == MoveTarget.Self)
+            {
+                attacker.ApplyBoost(boost);
+            }
+            else
+            {
+                target.ApplyBoost(boost);
+            }
+        }
+
+        if (move.Base.Effects.Status != StatusConditionID.none)
+        {
+            if (move.Base.Target == MoveTarget.Other)
+            {
+                target.SetConditionStatus(move.Base.Effects.Status);
+            }
+            else
+            {
+                attacker.SetConditionStatus(move.Base.Effects.Status);
+            }
+        }
+
+        yield return ShowStatsMessages(attacker);
+        yield return ShowStatsMessages(target); 
+    }
+
+    IEnumerator ShowStatsMessages(Pokemon pokemon)
+    {
+        while (pokemon.StatusChangeMessages.Count > 0)
+        {
+            var message = pokemon.StatusChangeMessages.Dequeue();
+            yield return battleDialogueBox.SetDialogue(message);
         }
     }
 
@@ -430,8 +481,10 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator SwitchPokemon(Pokemon newPokemon)
     {
+        bool currentPokemonFainted = true;
         if (playerUnit.Pokemon.HP > 0)
         {
+            currentPokemonFainted = false;
             yield return battleDialogueBox.SetDialogue($"¡Vuelve {playerUnit.Pokemon.Base.Name}!");
             playerUnit.PlayFaintAnimation();
             yield return new WaitForSeconds(1.5f);
@@ -441,7 +494,14 @@ public class BattleManager : MonoBehaviour
         battleDialogueBox.SetPokemonMovements(newPokemon.Moves);
         
         yield return battleDialogueBox.SetDialogue($"¡Ve {newPokemon.Base.Name}!");
-        StartCoroutine(PerformEnemyMovement());
+        if (currentPokemonFainted)
+        {
+            yield return ChooseFirstTurn();
+        }
+        else
+        {
+            yield return PerformEnemyMovement();
+        }
     }
 
     IEnumerator ThrowPokeball()

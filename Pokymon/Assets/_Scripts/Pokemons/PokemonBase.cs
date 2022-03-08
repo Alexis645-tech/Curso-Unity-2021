@@ -20,7 +20,7 @@ public class PokemonBase : ScriptableObject
     public Sprite BackSprite => backSprite;
     
 
-    private PokemonType type1, type2;
+    [SerializeField]private PokemonType type1, type2;
     public PokemonType Type1 => type1;
     public PokemonType Type2 => type2;
 
