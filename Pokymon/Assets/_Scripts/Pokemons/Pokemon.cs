@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 [Serializable]
@@ -30,6 +31,7 @@ public class Pokemon
     public StatusCondition StatusCondition { get; set; }
     public Queue<string> StatusChangeMessages { get; private set; } = new Queue<string>();
     public bool HasHpChanged { get; set; } = false;
+    public int previousHpValue;
 
     //Vida actual del pokemon
     private int _hp;
@@ -78,7 +80,9 @@ public class Pokemon
         }
         CalculateStats();
         _hp = MaxHp;
-        
+
+        previousHpValue = MaxHp;
+        HasHpChanged = true;
         ResetBoostings();
     }
 
@@ -183,6 +187,7 @@ public class Pokemon
     public void UpdateHp(int damage)
     {
         HasHpChanged = true;
+        previousHpValue = HP;
         HP -= damage;
         if (HP <= 0)
         {
@@ -236,6 +241,21 @@ public class Pokemon
             return;
         }
         Moves.Add(new Move(learnableMove.Move));
+    }
+
+    public void CureStatusCondition()
+    {
+        StatusCondition = null;
+    }
+
+    public bool OnStartTurn()
+    {
+        if (StatusCondition?.OnStartTurn != null)
+        {
+            return StatusCondition.OnStartTurn(this);
+        }
+
+        return true;
     }
 
     public void OnFinishTurn()

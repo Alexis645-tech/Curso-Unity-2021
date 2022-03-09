@@ -364,21 +364,27 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator RunMovement(BattleUnit attacker, BattleUnit target, Move move)
     {
+        bool canRunMovement = attacker.Pokemon.OnStartTurn();
+        if (!canRunMovement)
+        {
+            yield return ShowStatsMessages(attacker.Pokemon);
+            yield break;
+        }
+        yield return ShowStatsMessages(attacker.Pokemon);
+        
         move.Pp--;
         yield return battleDialogueBox.SetDialogue($"{attacker.Pokemon.Base.Name} ha usado {move.Base.Name}");
 
-        yield return RunMoveAnims(attacker, attackClip);
-        yield return RunMoveAnims(target, damageClip);
-        
+        yield return RunMoveAnims(attacker, target);
+
         if (move.Base.MoveType == MoveType.Stats)
         {
             yield return RunMoveStats(attacker.Pokemon, target.Pokemon, move);
         }
         else
         {
-            var oldHPValeu = target.Pokemon.HP;
             var damageDescription = target.Pokemon.ReceiveDamage(attacker.Pokemon, move);
-            yield return target.Hud.UpdatePokemonData(oldHPValeu);
+            yield return target.Hud.UpdatePokemonData();
             yield return ShowDamageDescription(damageDescription);
         }
 
@@ -388,20 +394,22 @@ public class BattleManager : MonoBehaviour
         }
 
         //Comprobar estados alterados como quemadura o envenenamiento a final de turno
-        var currentHP = attacker.Pokemon.HP;
         attacker.Pokemon.OnFinishTurn();
         yield return ShowStatsMessages(attacker.Pokemon);
-        yield return attacker.Hud.UpdatePokemonData(currentHP);
+        yield return attacker.Hud.UpdatePokemonData();
         if (attacker.Pokemon.HP <= 0)
         {
             yield return HandlePokemonFainted(attacker);
         }
     }
 
-    IEnumerator RunMoveAnims(BattleUnit actor, AudioClip sound)
+    IEnumerator RunMoveAnims(BattleUnit attacker, BattleUnit target)
     {
-        actor.PlayAttackAnimation();
-        SoundManager.SharedInstance.PlaySound(sound);
+        attacker.PlayAttackAnimation();
+        SoundManager.SharedInstance.PlaySound(attackClip);
+        yield return new WaitForSeconds(1f);
+        target.PlayReceiveAttackAnimation();
+        SoundManager.SharedInstance.PlaySound(damageClip);
         yield return new WaitForSeconds(1f);
     }
     IEnumerator RunMoveStats(Pokemon attacker, Pokemon target, Move move)
@@ -659,7 +667,8 @@ public class BattleManager : MonoBehaviour
             {
                 SoundManager.SharedInstance.PlaySound(levelUpClip);
                 playerUnit.Hud.SetLevelText();
-                yield return playerUnit.Hud.UpdatePokemonData(playerUnit.Pokemon.HP);
+                playerUnit.Pokemon.HasHpChanged = true;
+                yield return playerUnit.Hud.UpdatePokemonData();
                 yield return new WaitForSeconds(1);
                 yield return battleDialogueBox.SetDialogue($"¡{playerUnit.Pokemon.Base.Name} sube de nivel!");
 

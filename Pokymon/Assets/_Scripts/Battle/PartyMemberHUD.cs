@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PartyMemberHUD : MonoBehaviour
 {
-    [SerializeField] private Text nameText, lvlText, typeText, hpText;
+    [SerializeField] private Text nameText, lvlText, typeText;
     [SerializeField] private HealthBar healthBar;
     [SerializeField] private Image pokemonImage;
 
@@ -26,8 +26,7 @@ public class PartyMemberHUD : MonoBehaviour
         {
             typeText.text = $"{pokemon.Base.Type1.ToString()} - {pokemon.Base.Type2.ToString()}";
         }
-        hpText.text = $"{pokemon.HP}/{pokemon.MaxHp}";
-        healthBar.SetHP((float)pokemon.HP/pokemon.MaxHp);
+        healthBar.SetHP(pokemon);
         pokemonImage.sprite = pokemon.Base.FrontSprite;
     }
 

@@ -21,4 +21,5 @@ MonoBehaviour:
   moveType: 1
   effects:
     boostings: []
+    status: 0
   target: 1

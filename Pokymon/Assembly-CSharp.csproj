@@ -44,6 +44,7 @@
      <Compile Include="Assets\_Scripts\Battle\PartyHUD.cs" />
      <Compile Include="Assets\_Scripts\Battle\BattleDialogueBox.cs" />
      <Compile Include="Assets\_Scripts\Pokemons\Pokemon.cs" />
+     <Compile Include="Assets\_Scripts\StatusCondition\StatusConditionFactory.cs" />
      <Compile Include="Assets\_Scripts\Pokemons\PokemonParty.cs" />
      <Compile Include="Assets\_Scripts\Battle\PartyMemberHUD.cs" />
      <Compile Include="Assets\_Scripts\Player\PlayerController.cs" />
@@ -60,7 +61,6 @@
      <Compile Include="Assets\_Scripts\Managers\GameManager.cs" />
      <Compile Include="Assets\_Scripts\Battle\BattleHUD.cs" />
      <Compile Include="Assets\_Scripts\StatusCondition\StatusCondition.cs" />
-     <Compile Include="Assets\_Scripts\StatusCondition\StatusConditionFactory.cs" />
      <None Include="Assets\Audio\8Bit Music Album - 051321\Notes.txt" />
      <Reference Include="UnityEngine">
      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.2.8f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

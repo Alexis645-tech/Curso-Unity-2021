@@ -10,8 +10,7 @@ public class BattleHUD : MonoBehaviour
 {
     [SerializeField]private Text pokemonName;
     [SerializeField]private Text pokemonLevel;
-    [SerializeField]private HealthBar healthBar;
-    [SerializeField]private Text pokemonHealth;
+    [SerializeField]private HealthBar healthBar; 
     [SerializeField]private GameObject expBar;
 
     private Pokemon _pokemon;
@@ -21,31 +20,18 @@ public class BattleHUD : MonoBehaviour
         _pokemon = pokemon;
         pokemonName.text = pokemon.Base.Name;
         SetLevelText();
-        healthBar.SetHP((float)_pokemon.HP/_pokemon.MaxHp);
+        healthBar.SetHP(_pokemon);
         SetExp();
-        StartCoroutine(UpdatePokemonData(pokemon.HP));
+        StartCoroutine(UpdatePokemonData());
     }
 
-    public IEnumerator UpdatePokemonData(int oldHPValeu)
+    public IEnumerator UpdatePokemonData()
     {
         if (_pokemon.HasHpChanged)
         {
-            StartCoroutine(healthBar.SetSmoothHp((float) _pokemon.HP / _pokemon.MaxHp));
-            StartCoroutine(DecreaseHealthPoints(oldHPValeu));
-            yield return null;
+            yield return healthBar.SetSmoothHp(_pokemon);
             _pokemon.HasHpChanged = false;
         }
-    }
-
-    IEnumerator DecreaseHealthPoints(int oldHpValeu)
-    {
-        while (oldHpValeu > _pokemon.HP)
-        {
-            oldHpValeu--;
-            pokemonHealth.text = $"{oldHpValeu}/{_pokemon.MaxHp}";
-            yield return new WaitForSeconds(0.1f);
-        }
-        pokemonHealth.text = $"{_pokemon.HP}/{_pokemon.MaxHp}";
     }
 
     public void SetExp()
