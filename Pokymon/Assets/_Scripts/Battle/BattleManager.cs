@@ -368,6 +368,7 @@ public class BattleManager : MonoBehaviour
         if (!canRunMovement)
         {
             yield return ShowStatsMessages(attacker.Pokemon);
+            yield return attacker.Hud.UpdatePokemonData();
             yield break;
         }
         yield return ShowStatsMessages(attacker.Pokemon);
@@ -425,7 +426,7 @@ public class BattleManager : MonoBehaviour
                 target.ApplyBoost(boost);
             }
         }
-
+        //Status Condition
         if (move.Base.Effects.Status != StatusConditionID.none)
         {
             if (move.Base.Target == MoveTarget.Other)
@@ -437,11 +438,30 @@ public class BattleManager : MonoBehaviour
                 attacker.SetConditionStatus(move.Base.Effects.Status);
             }
         }
+        //Volatile Status Condition
+        if (move.Base.Effects.VolatileStatus != StatusConditionID.none)
+        {
+            if (move.Base.Target == MoveTarget.Other)
+            {
+                target.SetVolatileConditionStatus(move.Base.Effects.VolatileStatus);
+            }
+            else
+            {
+                attacker.SetVolatileConditionStatus(move.Base.Effects.VolatileStatus);
+            }
+        }
 
         yield return ShowStatsMessages(attacker);
         yield return ShowStatsMessages(target); 
     }
 
+    bool MoveHits(Move move, Pokemon attacker, Pokemon target)
+    {
+        float rnd = Random.Range(0, 100);
+        float moveAcc = move.Base.Accuracy;
+
+        return rnd < moveAcc;
+    }
     IEnumerator ShowStatsMessages(Pokemon pokemon)
     {
         while (pokemon.StatusChangeMessages.Count > 0)

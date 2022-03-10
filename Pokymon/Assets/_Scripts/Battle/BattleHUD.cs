@@ -12,6 +12,7 @@ public class BattleHUD : MonoBehaviour
     [SerializeField]private Text pokemonLevel;
     [SerializeField]private HealthBar healthBar; 
     [SerializeField]private GameObject expBar;
+    public GameObject statusBox;
 
     private Pokemon _pokemon;
 
@@ -23,6 +24,8 @@ public class BattleHUD : MonoBehaviour
         healthBar.SetHP(_pokemon);
         SetExp();
         StartCoroutine(UpdatePokemonData());
+        SetStatusConditionData();
+        _pokemon.OnStatusConditionChanged += SetStatusConditionData;
     }
 
     public IEnumerator UpdatePokemonData()
@@ -71,5 +74,19 @@ public class BattleHUD : MonoBehaviour
     {
         pokemonLevel.text = $"Lv {_pokemon.Level}";
     }
-    
+
+    private void SetStatusConditionData()
+    {
+        if (_pokemon.StatusCondition == null)
+        {
+            statusBox.SetActive(false);
+        }
+        else
+        {
+            statusBox.SetActive(true);
+            statusBox.GetComponent<Image>().color = ColorManager.StatusConditionColor.GetColorFromStatusCondition(_pokemon.StatusCondition.Id);
+            statusBox.GetComponentInChildren<Text>().text = _pokemon.StatusCondition.Id.ToString().ToUpper();
+        }
+    }
+
 }

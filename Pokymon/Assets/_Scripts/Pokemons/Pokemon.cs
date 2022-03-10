@@ -29,7 +29,11 @@ public class Pokemon
     public Dictionary<Stat, int> Stats { get; private set; }
     public Dictionary<Stat, int> StatsBoosted { get; private set; }
     public StatusCondition StatusCondition { get; set; }
+    public int StatusNumTurns { get; set; }
+    public StatusCondition VolatileStatusCondition { get; set; }
+    public int VolatileStatusNumTurns { get; set; }
     public Queue<string> StatusChangeMessages { get; private set; } = new Queue<string>();
+    public event Action OnStatusConditionChanged;
     public bool HasHpChanged { get; set; } = false;
     public int previousHpValue;
 
@@ -84,6 +88,8 @@ public class Pokemon
         previousHpValue = MaxHp;
         HasHpChanged = true;
         ResetBoostings();
+        StatusCondition = null;
+        VolatileStatusCondition = null;
     }
 
     void ResetBoostings()
@@ -104,7 +110,7 @@ public class Pokemon
         Stats.Add(Stat.SpDefense, Mathf.FloorToInt((_base.SpDefense * _level) / 100.0f) + 2);
         Stats.Add(Stat.Speed, Mathf.FloorToInt((_base.Speed * _level) / 100.0f) + 2);
         
-        MaxHp = Mathf.FloorToInt((_base.MaxHp * _level) / 20.0f) + 10;
+        MaxHp = Mathf.FloorToInt((_base.MaxHp * _level) / 20.0f) + 10 + _level;
     }
 
     int GetStat(Stat stat)
@@ -197,8 +203,33 @@ public class Pokemon
 
     public void SetConditionStatus(StatusConditionID id)
     {
+        if (StatusCondition != null)
+        {
+            return;
+        }
         StatusCondition = StatusConditionFactory.StatusConditions[id];
+        StatusCondition?.OnApplyStatusCondition?.Invoke(this);
         StatusChangeMessages.Enqueue($"{Base.Name} {StatusCondition.StartMessage}");
+        OnStatusConditionChanged?.Invoke();
+    }
+    public void CureStatusCondition()
+    {
+        StatusCondition = null;
+        OnStatusConditionChanged?.Invoke();
+    }
+    public void SetVolatileConditionStatus(StatusConditionID id)
+    {
+        if (VolatileStatusCondition != null)
+        {
+            return;
+        }
+        VolatileStatusCondition = StatusConditionFactory.StatusConditions[id];
+        VolatileStatusCondition?.OnApplyStatusCondition?.Invoke(this);
+        StatusChangeMessages.Enqueue($"{Base.Name} {VolatileStatusCondition.StartMessage}");
+    }
+    public void CureVolatileStatusCondition()
+    {
+        VolatileStatusCondition = null;
     }
 
     public Move RandomMove()
@@ -243,28 +274,36 @@ public class Pokemon
         Moves.Add(new Move(learnableMove.Move));
     }
 
-    public void CureStatusCondition()
-    {
-        StatusCondition = null;
-    }
-
     public bool OnStartTurn()
     {
+        bool canPerformMovement = true;
         if (StatusCondition?.OnStartTurn != null)
         {
-            return StatusCondition.OnStartTurn(this);
+            if (!StatusCondition.OnStartTurn(this))
+            {
+                canPerformMovement = false;
+            }
+        }
+        if (VolatileStatusCondition?.OnStartTurn != null)
+        {
+            if (!VolatileStatusCondition.OnStartTurn(this))
+            {
+                canPerformMovement = false;
+            }
         }
 
-        return true;
+        return canPerformMovement;
     }
 
     public void OnFinishTurn()
     {
         StatusCondition?.OnFinishTurn?.Invoke(this);
+        VolatileStatusCondition?.OnFinishTurn?.Invoke(this);
     }
 
     public void OnBattleFinish()
     {
+        VolatileStatusCondition = null;
         ResetBoostings();
     }
 }

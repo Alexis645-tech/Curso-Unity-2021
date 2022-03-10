@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        StatusConditionFactory.InitFactory();
         SoundManager.SharedInstance.PlayMusic(worldClip);
         playerController.OnPokemonEncountered += StartPokemonBattle;
         battleManager.OnBattleFinish += FinishPokemonBattle;
