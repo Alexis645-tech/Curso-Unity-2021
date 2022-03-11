@@ -116,7 +116,7 @@ public enum PokemonType
 
 public enum Stat
 {
-    Attack, Defense, SpAttack, SpDefense, Speed
+    Attack, Defense, SpAttack, SpDefense, Speed, Accuracy, Evasion
 }
 
 public class TypeMatrix

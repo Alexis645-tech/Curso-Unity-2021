@@ -20,6 +20,7 @@ public class Pokemon
     }
 
     private List<Move> _moves;
+    public Move CurrentMove { get; set; }
     public List<Move> Moves
     {
         get => _moves;
@@ -97,7 +98,8 @@ public class Pokemon
         StatusChangeMessages = new Queue<string>();
         StatsBoosted = new Dictionary<Stat, int>()
         {
-            {Stat.Attack, 0}, {Stat.Defense, 0}, {Stat.SpAttack, 0}, {Stat.SpDefense, 0}, {Stat.Speed, 0}
+            {Stat.Attack, 0}, {Stat.Defense, 0}, {Stat.SpAttack, 0}, {Stat.SpDefense, 0}, {Stat.Speed, 0},
+            {Stat.Accuracy, 0}, {Stat.Evasion, 0}
         };
     }
 

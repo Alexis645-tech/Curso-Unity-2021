@@ -17,6 +17,8 @@ MonoBehaviour:
   description: Pokemon agua
   frontSprite: {fileID: 21300000, guid: 50dad27a31e169048bae7cb97e78576b, type: 3}
   backSprite: {fileID: 21300000, guid: 5c3d3980ac8d76f4cba378d4be0feb7a, type: 3}
+  type1: 0
+  type2: 0
   catchRate: 45
   maxHP: 44
   attack: 48
@@ -29,6 +31,8 @@ MonoBehaviour:
   learnableMoves:
   - _move: {fileID: 11400000, guid: a7a536bb31dd98c4ea46178a9ca1cbef, type: 2}
     level: 1
+  - _move: {fileID: 11400000, guid: 1c5e0e617e7335d40a3f6cc857a51e99, type: 2}
+    level: 3
   - _move: {fileID: 11400000, guid: 9e4af2f764664ba4da585a42ae3de8f7, type: 2}
     level: 5
   - _move: {fileID: 11400000, guid: edeeaf7db785f7e4096441d6f4da871a, type: 2}
