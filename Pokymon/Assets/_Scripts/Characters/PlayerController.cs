@@ -1,0 +1,115 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Random = UnityEngine.Random;
+
+[RequireComponent(typeof(Animator))]
+public class PlayerController : MonoBehaviour
+{
+    private bool isMoving;
+    
+    [SerializeField]private float speed;
+    private Vector2 input;
+
+    private Animator _animator;
+
+    [SerializeField] private LayerMask solidObjectsLayer, pokemonLayer, interactableLayer;
+
+    public event Action OnPokemonEncountered;
+
+    private void Awake()
+    {
+        _animator = GetComponent<Animator>();
+    }
+
+    public void HandleUpdate()
+    {
+        if(!isMoving)
+        {
+            input.x = Input.GetAxisRaw("Horizontal");
+            input.y = Input.GetAxisRaw("Vertical");
+            if (input.x != 0)
+            {
+                input.y = 0;
+            }
+            if (input != Vector2.zero)
+            {
+                _animator.SetFloat("MoveX", input.x);
+                _animator.SetFloat("MoveY", input.y);
+                var targetPosition = transform.position;
+                targetPosition.x += input.x;
+                targetPosition.y += input.y;
+
+                if (IsAvialable(targetPosition))
+                {
+                    StartCoroutine(MoveTowards(targetPosition));
+                }
+            }
+        }
+
+        if (Input.GetAxisRaw("Submit") != 0)
+        {
+            Interact();
+        }
+    }
+
+    private void LateUpdate()
+    {
+        _animator.SetBool("Is Moving", isMoving);
+    }
+
+    IEnumerator MoveTowards(Vector3 destination)
+    {
+        isMoving = true;
+        while(Vector3.Distance(transform.position, destination) > Mathf.Epsilon)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, destination, speed * Time.deltaTime);
+            yield return null;
+        }
+        transform.position = destination;
+        isMoving = false;
+        
+        CheckForPokemon();
+    }
+
+    /// <summary>
+    /// El método comprueba que la zona a la que queremos acceder este disponible
+    /// </summary>
+    /// <param name="target">Zona a la que queremos acceder</param>
+    /// <returns>True: si el target esta disponible, false: en caso contrario</returns>
+    private bool IsAvialable(Vector3 target)
+    {
+        if (Physics2D.OverlapCircle(target, 0.2f, solidObjectsLayer | interactableLayer) != null)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private void Interact()
+    {
+        var facingDirection = new Vector3(_animator.GetFloat("MoveX"), _animator.GetFloat("MoveY"));
+        var interactPosition = transform.position + facingDirection;
+        
+        Debug.DrawLine(transform.position, interactPosition, Color.magenta, 1.0f);
+        var collider = Physics2D.OverlapCircle(interactPosition, 0.2f, interactableLayer);
+        if (collider != null)
+        {
+            collider.GetComponent<Interactable>()?.Interact();
+        }
+    }
+
+    [SerializeField] private float verticalOffset = 0.2f;
+    private void CheckForPokemon()
+    {
+        if (Physics2D.OverlapCircle(transform.position - new Vector3(0, verticalOffset), 0.2f, pokemonLayer) != null)
+        {
+            if (Random.Range(0, 100) < 10)
+            {
+                OnPokemonEncountered();
+            }
+        }
+    }
+}
