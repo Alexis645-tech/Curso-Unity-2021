@@ -18,10 +18,8 @@ public class BattleDialogueBox : MonoBehaviour
 
     public float timeToWaitAfterText = 1f;
     
-    public float charactersPerSecond = 10.0f;
+    public float charactersPerSecond;
     public bool isWriting;
-
-    public AudioClip[] characterSounds;
 
     public IEnumerator SetDialogue(string message)
     {
@@ -31,7 +29,7 @@ public class BattleDialogueBox : MonoBehaviour
         {
             if (character != ' ')
             {
-                SoundManager.SharedInstance.RandomSoundEffect(characterSounds);
+                SoundManager.SharedInstance.PlayRandomCharacterSound();
             }
             dialogueText.text += character;
             yield return new WaitForSeconds(1 / charactersPerSecond);

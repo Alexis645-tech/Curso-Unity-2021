@@ -8,7 +8,8 @@ using UnityEngine.UI;
 public enum GameState
 {
     Travel,
-    Battle
+    Battle,
+    Dialogue
 }
 
 [RequireComponent(typeof(ColorManager))]
@@ -34,6 +35,19 @@ public class GameManager : MonoBehaviour
         SoundManager.SharedInstance.PlayMusic(worldClip);
         playerController.OnPokemonEncountered += StartPokemonBattle;
         battleManager.OnBattleFinish += FinishPokemonBattle;
+        DialogueManager.SharedInstace.OnDialogueStart += () =>
+        {
+            _gameState = GameState.Dialogue;
+        };
+
+        DialogueManager.SharedInstace.OnDialogueFinish += () =>
+        {
+            if (_gameState == GameState.Dialogue)
+            {
+                _gameState = GameState.Travel;
+            }
+            //TODO: Si el dialogo es con un entrenador pokemon, no vamos a travel, si no a battle
+        };
     }
 
     void StartPokemonBattle()
@@ -93,6 +107,9 @@ public class GameManager : MonoBehaviour
         }else if (_gameState == GameState.Battle)
         {
             battleManager.HandleUpdate();
+        }else if (_gameState == GameState.Dialogue)
+        {
+            DialogueManager.SharedInstace.HandleUpdate();
         }
     }
 }

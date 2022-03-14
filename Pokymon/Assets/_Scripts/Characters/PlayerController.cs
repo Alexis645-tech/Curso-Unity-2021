@@ -4,28 +4,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(CharacterAnimator))]
 public class PlayerController : MonoBehaviour
 {
-    private bool isMoving;
-    
-    [SerializeField]private float speed;
     private Vector2 input;
 
-    private Animator _animator;
-
-    [SerializeField] private LayerMask solidObjectsLayer, pokemonLayer, interactableLayer;
+    private Character _character;
 
     public event Action OnPokemonEncountered;
+    
+    private float timeSinceLastClick;
+    [SerializeField] private float timeBetweenClicks = 1.0f;
 
-    private void Awake()
+    private void Start()
     {
-        _animator = GetComponent<Animator>();
+        _character = GetComponent<Character>();
     }
 
     public void HandleUpdate()
     {
-        if(!isMoving)
+        timeSinceLastClick += Time.deltaTime;
+        if(!_character.Animator.isMoving)
         {
             input.x = Input.GetAxisRaw("Horizontal");
             input.y = Input.GetAxisRaw("Vertical");
@@ -35,66 +34,28 @@ public class PlayerController : MonoBehaviour
             }
             if (input != Vector2.zero)
             {
-                _animator.SetFloat("MoveX", input.x);
-                _animator.SetFloat("MoveY", input.y);
-                var targetPosition = transform.position;
-                targetPosition.x += input.x;
-                targetPosition.y += input.y;
-
-                if (IsAvialable(targetPosition))
-                {
-                    StartCoroutine(MoveTowards(targetPosition));
-                }
+                StartCoroutine(_character.MoveTowards(input, CheckForPokemon));
             }
         }
 
         if (Input.GetAxisRaw("Submit") != 0)
         {
-            Interact();
+            if (timeSinceLastClick >= timeBetweenClicks)
+            {
+                Interact();
+            }
         }
-    }
-
-    private void LateUpdate()
-    {
-        _animator.SetBool("Is Moving", isMoving);
-    }
-
-    IEnumerator MoveTowards(Vector3 destination)
-    {
-        isMoving = true;
-        while(Vector3.Distance(transform.position, destination) > Mathf.Epsilon)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, destination, speed * Time.deltaTime);
-            yield return null;
-        }
-        transform.position = destination;
-        isMoving = false;
-        
-        CheckForPokemon();
-    }
-
-    /// <summary>
-    /// El método comprueba que la zona a la que queremos acceder este disponible
-    /// </summary>
-    /// <param name="target">Zona a la que queremos acceder</param>
-    /// <returns>True: si el target esta disponible, false: en caso contrario</returns>
-    private bool IsAvialable(Vector3 target)
-    {
-        if (Physics2D.OverlapCircle(target, 0.2f, solidObjectsLayer | interactableLayer) != null)
-        {
-            return false;
-        }
-
-        return true;
     }
 
     private void Interact()
     {
-        var facingDirection = new Vector3(_animator.GetFloat("MoveX"), _animator.GetFloat("MoveY"));
+        timeSinceLastClick = 0;
+        
+        var facingDirection = new Vector3(_character.Animator.moveX, _character.Animator.moveY);
         var interactPosition = transform.position + facingDirection;
         
         Debug.DrawLine(transform.position, interactPosition, Color.magenta, 1.0f);
-        var collider = Physics2D.OverlapCircle(interactPosition, 0.2f, interactableLayer);
+        var collider = Physics2D.OverlapCircle(interactPosition, 0.2f, GameLayers.SharedInstance.InteractableLayer);
         if (collider != null)
         {
             collider.GetComponent<Interactable>()?.Interact();
@@ -104,7 +65,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float verticalOffset = 0.2f;
     private void CheckForPokemon()
     {
-        if (Physics2D.OverlapCircle(transform.position - new Vector3(0, verticalOffset), 0.2f, pokemonLayer) != null)
+        if (Physics2D.OverlapCircle(transform.position - new Vector3(0, verticalOffset), 0.2f, GameLayers.SharedInstance.PokemonLayer) != null)
         {
             if (Random.Range(0, 100) < 10)
             {

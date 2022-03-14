@@ -56,13 +56,19 @@
      <Compile Include="Assets\_Scripts\Battle\BattleUnit.cs" />
      <Compile Include="Assets\_Scripts\Managers\ColorManager.cs" />
      <Compile Include="Assets\_Scripts\Moves\MoveBase.cs" />
+     <Compile Include="Assets\_Scripts\Characters\NpcController.cs" />
+     <Compile Include="Assets\_Scripts\Characters\Interactable.cs" />
      <Compile Include="Assets\_Scripts\Battle\SelectionMovementUI.cs" />
      <Compile Include="Assets\_Scripts\Pokemons\PokemonMapArea.cs" />
      <Compile Include="Assets\_Scripts\Managers\GameManager.cs" />
      <Compile Include="Assets\_Scripts\Battle\BattleHUD.cs" />
      <Compile Include="Assets\_Scripts\StatusCondition\StatusCondition.cs" />
-     <Compile Include="Assets\_Scripts\Characters\NpcController.cs" />
-     <Compile Include="Assets\_Scripts\Characters\Interactable.cs" />
+     <Compile Include="Assets\_Scripts\Managers\DialogueManager.cs" />
+     <Compile Include="Assets\_Scripts\Managers\Dialogue.cs" />
+     <Compile Include="Assets\_Scripts\Animations\CustomAnimator.cs" />
+     <Compile Include="Assets\_Scripts\Animations\CharacterAnimator.cs" />
+     <Compile Include="Assets\_Scripts\Characters\Character.cs" />
+     <Compile Include="Assets\_Scripts\Managers\GameLayers.cs" />
      <None Include="Assets\Audio\8Bit Music Album - 051321\Notes.txt" />
      <Reference Include="UnityEngine">
      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.2.8f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

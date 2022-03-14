@@ -8,6 +8,8 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager SharedInstance;
     
+    [SerializeField] AudioClip[] characterSounds;
+    
     [SerializeField] private AudioSource effectsSource, musicSource;
 
     public Vector2 pitchRange = Vector2.zero;
@@ -40,7 +42,11 @@ public class SoundManager : MonoBehaviour
         musicSource.Play();
     }
 
-    public void RandomSoundEffect(params AudioClip[] clips)
+    public void PlayRandomCharacterSound()
+    {
+        RandomSoundEffect(characterSounds);
+    }
+    private void RandomSoundEffect(params AudioClip[] clips)
     {
         int index = Random.Range(0, clips.Length);
         float pitch = Random.Range(pitchRange.x, pitchRange.y);
