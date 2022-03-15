@@ -2,27 +2,73 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
+public enum NpcState
+{
+    Idle,
+    Walking,
+    Talking
+}
 public class NpcController : MonoBehaviour, Interactable
 {
     [SerializeField] private Dialogue dialogue;
-    [SerializeField] private List<Sprite> sprites;
+    private NpcState state;
+    [SerializeField] private float idleTime = 3f;
+    private float idleTimer = 0f;
+    [SerializeField] private List<Vector2> moveDirections;
+    private int currentDirection;
 
-    private CustomAnimator animator;
+    private Character _character;
 
-    private void Start()
+    private void Awake()
     {
-        animator = new CustomAnimator(GetComponent<SpriteRenderer>(), sprites);
-        animator.Start();
-    }
-
-    private void Update()
-    {
-        animator.HandleUpdate();
+        _character = GetComponent<Character>();
     }
 
     public void Interact()
     {
-        DialogueManager.SharedInstace.ShowDialogue(dialogue);
+        if (state == NpcState.Idle)
+        {
+            state = NpcState.Talking;
+            DialogueManager.SharedInstace.ShowDialogue(dialogue, () =>
+            {
+                idleTimer = 0f;
+                state = NpcState.Idle;
+            });
+        }
+    }
+
+    private void Update()
+    {
+        if (state == NpcState.Idle)
+        {
+            idleTimer = Time.deltaTime;
+            if (idleTimer > idleTime)
+            {
+                idleTimer = 0f;
+                StartCoroutine(Walk());
+
+            }
+        }
+        _character.HandleUpdate();
+    }
+
+    IEnumerator Walk()
+    {
+        state = NpcState.Walking;
+        var direction = Vector2.zero;
+        if (moveDirections.Count > 0)
+        {
+            direction = moveDirections[currentDirection];
+            currentDirection = (currentDirection + 1) % moveDirections.Count;
+        }
+        else
+        {
+            direction = new Vector2(Random.Range(-1, 2), Random.Range(-1, 2));
+        }
+
+        yield return _character.MoveTowards(moveDirections[currentDirection]);
+        state = NpcState.Idle;
     }
 }

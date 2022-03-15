@@ -24,19 +24,17 @@ public class PlayerController : MonoBehaviour
     public void HandleUpdate()
     {
         timeSinceLastClick += Time.deltaTime;
-        if(!_character.Animator.isMoving)
+        if(!_character.isMoving)
         {
             input.x = Input.GetAxisRaw("Horizontal");
             input.y = Input.GetAxisRaw("Vertical");
-            if (input.x != 0)
-            {
-                input.y = 0;
-            }
+            
             if (input != Vector2.zero)
             {
                 StartCoroutine(_character.MoveTowards(input, CheckForPokemon));
             }
         }
+        _character.HandleUpdate();
 
         if (Input.GetAxisRaw("Submit") != 0)
         {

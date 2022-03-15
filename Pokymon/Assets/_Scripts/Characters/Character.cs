@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    [SerializeField]private float speed;
+    [SerializeField] private float speed;
     private CharacterAnimator _animator;
+
+    public bool isMoving { get; private set; }
 
     public CharacterAnimator Animator => _animator;
 
@@ -17,28 +19,48 @@ public class Character : MonoBehaviour
 
     public IEnumerator MoveTowards(Vector2 moveVector, Action OnMoveFinish = null)
     {
-        _animator.moveX = moveVector.x;
-        _animator.moveY = moveVector.y;
+        if (moveVector.x != 0)
+        {
+            moveVector.y = 0;
+        }
+        _animator.moveX = Mathf.Clamp(moveVector.x, -1, 1);
+        _animator.moveY = Mathf.Clamp(moveVector.y, -1, 1);
         var targetPosition = transform.position;
         targetPosition.x += moveVector.x;
         targetPosition.y += moveVector.y;
-        
-        if (!IsAvialable(targetPosition))
+
+        if (!IsPathAvailable(targetPosition))
         {
             yield break;
         }
-        
-        _animator.isMoving = true;
-        while(Vector3.Distance(transform.position, targetPosition) > Mathf.Epsilon)
+
+        isMoving = true;
+        while (Vector3.Distance(transform.position, targetPosition) > Mathf.Epsilon)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
             yield return null;
         }
+
         transform.position = targetPosition;
-        _animator.isMoving = false;
-        
+        isMoving = false;
+
         OnMoveFinish?.Invoke();
     }
+
+    public void HandleUpdate()
+    {
+        _animator.isMoving = isMoving;
+    }
+
+    private bool IsPathAvailable(Vector3 target)
+    {
+        var path = target - transform.position;
+        var direction = path.normalized;
+        return !Physics2D.BoxCast(transform.position + direction, new Vector2(0.3f, 0.3f), 0f, direction,
+            path.magnitude - 1,
+            GameLayers.SharedInstance.SolidObjectsLayer | GameLayers.SharedInstance.InteractableLayer);
+    }
+
     /// <summary>
     /// El método comprueba que la zona a la que queremos acceder este disponible
     /// </summary>

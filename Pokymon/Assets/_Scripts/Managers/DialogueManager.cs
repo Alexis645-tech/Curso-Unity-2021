@@ -20,6 +20,9 @@ public class DialogueManager : MonoBehaviour
     private Dialogue currentDialogue;
     private int currentLine = 0;
     private bool isWriting;
+
+    public bool isBeingShown;
+    private Action onDialogueClose;
     private void Awake()
     {
         if (SharedInstace == null)
@@ -28,13 +31,14 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void ShowDialogue(Dialogue dialogue)
+    public void ShowDialogue(Dialogue dialogue, Action onDialogueFinish = null)
     {
         OnDialogueStart?.Invoke();
         dialogueBox.SetActive(true);
         
         currentDialogue = dialogue;
-
+        isBeingShown = true;
+        this.onDialogueClose = onDialogueFinish;
         StartCoroutine(SetDialogue(currentDialogue.Lines[currentLine]));
     }
 
@@ -54,7 +58,9 @@ public class DialogueManager : MonoBehaviour
                 else
                 {
                     currentLine = 0;
+                    isBeingShown = false;
                     dialogueBox.SetActive(false);
+                    onDialogueClose?.Invoke();
                     OnDialogueFinish?.Invoke();
                 }
             }
