@@ -8,7 +8,7 @@ public class Character : MonoBehaviour
     [SerializeField] private float speed;
     private CharacterAnimator _animator;
 
-    public bool isMoving { get; private set; }
+    public bool IsMoving { get; private set; }
 
     public CharacterAnimator Animator => _animator;
 
@@ -34,7 +34,7 @@ public class Character : MonoBehaviour
             yield break;
         }
 
-        isMoving = true;
+        IsMoving = true;
         while (Vector3.Distance(transform.position, targetPosition) > Mathf.Epsilon)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
@@ -42,14 +42,30 @@ public class Character : MonoBehaviour
         }
 
         transform.position = targetPosition;
-        isMoving = false;
+        IsMoving = false;
 
         OnMoveFinish?.Invoke();
     }
 
+    public void LookTowards( Vector3 target)
+    {
+        var diff= target - transform.position;
+        var xDiff = Mathf.FloorToInt(diff.x);
+        var yDiff = Mathf.FloorToInt(diff.y);
+        if (xDiff == 0 || yDiff == 0)
+        {
+            _animator.moveX = Mathf.Clamp(xDiff, -1f, 1f);
+            _animator.moveY = Mathf.Clamp(yDiff, -1f, 1f);
+        }
+        else
+        {
+            Debug.LogError("Error, el personaje no puede moverse ni mirar en diagonal");
+        }
+    }
+
     public void HandleUpdate()
     {
-        _animator.isMoving = isMoving;
+        _animator.isMoving = IsMoving;
     }
 
     private bool IsPathAvailable(Vector3 target)
@@ -57,8 +73,7 @@ public class Character : MonoBehaviour
         var path = target - transform.position;
         var direction = path.normalized;
         return !Physics2D.BoxCast(transform.position + direction, new Vector2(0.3f, 0.3f), 0f, direction,
-            path.magnitude - 1,
-            GameLayers.SharedInstance.SolidObjectsLayer | GameLayers.SharedInstance.InteractableLayer);
+            path.magnitude - 1, GameLayers.SharedInstance.CollisionLayers);
     }
 
     /// <summary>

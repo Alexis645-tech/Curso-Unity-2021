@@ -26,11 +26,12 @@ public class NpcController : MonoBehaviour, Interactable
         _character = GetComponent<Character>();
     }
 
-    public void Interact()
+    public void Interact(Vector3 source)
     {
         if (state == NpcState.Idle)
         {
             state = NpcState.Talking;
+            _character.LookTowards(source);
             DialogueManager.SharedInstace.ShowDialogue(dialogue, () =>
             {
                 idleTimer = 0f;
@@ -57,18 +58,22 @@ public class NpcController : MonoBehaviour, Interactable
     IEnumerator Walk()
     {
         state = NpcState.Walking;
+        var oldPosition = transform.position;
         var direction = Vector2.zero;
         if (moveDirections.Count > 0)
         {
             direction = moveDirections[currentDirection];
-            currentDirection = (currentDirection + 1) % moveDirections.Count;
         }
         else
         {
             direction = new Vector2(Random.Range(-1, 2), Random.Range(-1, 2));
         }
 
-        yield return _character.MoveTowards(moveDirections[currentDirection]);
+        yield return _character.MoveTowards(direction);
+        if (moveDirections.Count > 0 && transform.position != oldPosition)
+        {
+            currentDirection = (currentDirection + 1) % moveDirections.Count;
+        }
         state = NpcState.Idle;
     }
 }

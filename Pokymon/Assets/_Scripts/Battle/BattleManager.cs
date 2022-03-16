@@ -53,6 +53,7 @@ public class BattleManager : MonoBehaviour
     public event Action<bool> OnBattleFinish;
 
     private PokemonParty playerParty;
+    private PokemonParty trainerParty;
     private Pokemon wildPokemon;
 
     private int currentSelectedAction;
@@ -66,6 +67,8 @@ public class BattleManager : MonoBehaviour
 
     public AudioClip attackClip, damageClip, levelUpClip, endBattleClip, faintedClip, pokeballClip;
 
+    private PlayerController player;
+    private TrainerController trainer;
     public void HandleStartBattle(PokemonParty playerParty, Pokemon wildPokemon)
     {
         battleTYpe = BattleTYpe.WildPOkemon;
@@ -75,24 +78,35 @@ public class BattleManager : MonoBehaviour
         StartCoroutine(SetupBattle());
     } 
 
-    public void HandleStartTrainerBattle(PokemonParty playerParty, PokemonParty trainerParty, bool isLeader)
+    public void HandleStartTrainerBattle(PokemonParty playerParty, PokemonParty trainerParty, bool isLeader = false)
     {
         battleTYpe = (isLeader ? BattleTYpe.Leader : BattleTYpe.Trainer);
-        //TODO: El resto de batalla contra NPC
+        this.playerParty = playerParty;
+        this.trainerParty = trainerParty;
+
+        player = playerParty.GetComponent<PlayerController>();
+        trainer = trainerParty.GetComponent<TrainerController>();
     }
 
     public IEnumerator SetupBattle()
     {
         state = BattleState.StartBattle;
-        playerUnit.SetUpPokemon(playerParty.GetFirstNonFaintedPokemon());
+        if (battleTYpe == BattleTYpe.WildPOkemon)
+        {
+            playerUnit.SetUpPokemon(playerParty.GetFirstNonFaintedPokemon());
 
-        battleDialogueBox.SetPokemonMovements(playerUnit.Pokemon.Moves);
+            battleDialogueBox.SetPokemonMovements(playerUnit.Pokemon.Moves);
         
-        enemyUnit.SetUpPokemon(wildPokemon);
+            enemyUnit.SetUpPokemon(wildPokemon);
 
+            yield return battleDialogueBox.SetDialogue($"Un {enemyUnit.Pokemon.Base.Name} salvaje a aparecido.");
+        }
+        else
+        {
+            
+        }
         partyHud.InitPartyHUD();
         
-        yield return battleDialogueBox.SetDialogue($"Un {enemyUnit.Pokemon.Base.Name} salvaje a aparecido.");
         PlayerActionSelection();
     }
 

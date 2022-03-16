@@ -9,7 +9,8 @@ public enum GameState
 {
     Travel,
     Battle,
-    Dialogue
+    Dialogue,
+    Cutscene
 }
 
 [RequireComponent(typeof(ColorManager))]
@@ -34,6 +35,15 @@ public class GameManager : MonoBehaviour
         StatusConditionFactory.InitFactory();
         SoundManager.SharedInstance.PlayMusic(worldClip);
         playerController.OnPokemonEncountered += StartPokemonBattle;
+        playerController.OnEnterTrainerFov += (Collider2D trainerCollider) =>
+        {
+            var trainer = trainerCollider.GetComponentInParent<TrainerController>();
+            if (trainer != null)
+            {
+                _gameState = GameState.Cutscene;
+                StartCoroutine(trainer.TriggerTrainerBattle(playerController));
+            }
+        };
         battleManager.OnBattleFinish += FinishPokemonBattle;
         DialogueManager.SharedInstace.OnDialogueStart += () =>
         {

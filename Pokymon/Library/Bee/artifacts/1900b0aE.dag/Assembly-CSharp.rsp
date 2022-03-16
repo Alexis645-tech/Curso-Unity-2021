@@ -391,6 +391,7 @@
 "Assets/_Scripts/Characters/Interactable.cs"
 "Assets/_Scripts/Characters/NpcController.cs"
 "Assets/_Scripts/Characters/PlayerController.cs"
+"Assets/_Scripts/Characters/TrainerController.cs"
 "Assets/_Scripts/Managers/ColorManager.cs"
 "Assets/_Scripts/Managers/Dialogue.cs"
 "Assets/_Scripts/Managers/DialogueManager.cs"

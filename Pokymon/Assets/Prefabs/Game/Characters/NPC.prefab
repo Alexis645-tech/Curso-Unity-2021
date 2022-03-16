@@ -78,8 +78,8 @@ SpriteRenderer:
   m_SortingLayerID: 998554185
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2144308699, guid: f10ee2f01fe8f324494ad4b58816be74, type: 3}
-  m_Color: {r: 1, g: 0.8927076, b: 0.1745283, a: 1}
+  m_Sprite: {fileID: -361946395, guid: e62c9042587713a408ba726ff18218ee, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -127,7 +127,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1.5}
+    oldSize: {x: 1.7, y: 1.8}
     newSize: {x: 1, y: 1.5}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -152,7 +152,7 @@ MonoBehaviour:
     lines:
     - "\xA1Hola! Bianvenido al mundo de pokemon."
     - "\xBFHaz intentado caminar por la hierva alta?"
-  idleTime: 3
+  idleTime: 1.5
   moveDirections:
   - {x: 2, y: 0}
   - {x: 0, y: 2}
@@ -187,22 +187,23 @@ MonoBehaviour:
   moveY: 0
   isMoving: 0
   walkDownSprite:
-  - {fileID: -2144308699, guid: f10ee2f01fe8f324494ad4b58816be74, type: 3}
-  - {fileID: 1480415161, guid: f10ee2f01fe8f324494ad4b58816be74, type: 3}
-  - {fileID: 1128221835, guid: f10ee2f01fe8f324494ad4b58816be74, type: 3}
-  - {fileID: -1109527707, guid: f10ee2f01fe8f324494ad4b58816be74, type: 3}
+  - {fileID: -361946395, guid: e62c9042587713a408ba726ff18218ee, type: 3}
+  - {fileID: -951404433, guid: e62c9042587713a408ba726ff18218ee, type: 3}
+  - {fileID: -1497422334, guid: e62c9042587713a408ba726ff18218ee, type: 3}
+  - {fileID: 939571161, guid: e62c9042587713a408ba726ff18218ee, type: 3}
   walkUpSprite:
-  - {fileID: 342223636, guid: f10ee2f01fe8f324494ad4b58816be74, type: 3}
-  - {fileID: 255825407, guid: f10ee2f01fe8f324494ad4b58816be74, type: 3}
-  - {fileID: -916349937, guid: f10ee2f01fe8f324494ad4b58816be74, type: 3}
-  - {fileID: 802377151, guid: f10ee2f01fe8f324494ad4b58816be74, type: 3}
+  - {fileID: -1185563385, guid: e62c9042587713a408ba726ff18218ee, type: 3}
+  - {fileID: -1831418092, guid: e62c9042587713a408ba726ff18218ee, type: 3}
+  - {fileID: 1793656191, guid: e62c9042587713a408ba726ff18218ee, type: 3}
+  - {fileID: 793719113, guid: e62c9042587713a408ba726ff18218ee, type: 3}
   walkLeftSprite:
-  - {fileID: -978145467, guid: f10ee2f01fe8f324494ad4b58816be74, type: 3}
-  - {fileID: 1777703703, guid: f10ee2f01fe8f324494ad4b58816be74, type: 3}
-  - {fileID: 2115146840, guid: f10ee2f01fe8f324494ad4b58816be74, type: 3}
-  - {fileID: -895957858, guid: f10ee2f01fe8f324494ad4b58816be74, type: 3}
+  - {fileID: -1971302176, guid: e62c9042587713a408ba726ff18218ee, type: 3}
+  - {fileID: -1086136301, guid: e62c9042587713a408ba726ff18218ee, type: 3}
+  - {fileID: 100130672, guid: e62c9042587713a408ba726ff18218ee, type: 3}
+  - {fileID: -1998132688, guid: e62c9042587713a408ba726ff18218ee, type: 3}
   walkRightSprite:
-  - {fileID: -681759028, guid: f10ee2f01fe8f324494ad4b58816be74, type: 3}
-  - {fileID: 746088468, guid: f10ee2f01fe8f324494ad4b58816be74, type: 3}
-  - {fileID: -1208458642, guid: f10ee2f01fe8f324494ad4b58816be74, type: 3}
-  - {fileID: 1451150238, guid: f10ee2f01fe8f324494ad4b58816be74, type: 3}
+  - {fileID: 1341754206, guid: e62c9042587713a408ba726ff18218ee, type: 3}
+  - {fileID: 2053510265, guid: e62c9042587713a408ba726ff18218ee, type: 3}
+  - {fileID: 1877692764, guid: e62c9042587713a408ba726ff18218ee, type: 3}
+  - {fileID: -1503066267, guid: e62c9042587713a408ba726ff18218ee, type: 3}
+  defaultDirection: 0

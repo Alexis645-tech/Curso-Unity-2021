@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private Character _character;
 
     public event Action OnPokemonEncountered;
+    public event Action<Collider2D> OnEnterTrainerFov;
     
     private float timeSinceLastClick;
     [SerializeField] private float timeBetweenClicks = 1.0f;
@@ -24,14 +25,14 @@ public class PlayerController : MonoBehaviour
     public void HandleUpdate()
     {
         timeSinceLastClick += Time.deltaTime;
-        if(!_character.isMoving)
+        if(!_character.IsMoving)
         {
             input.x = Input.GetAxisRaw("Horizontal");
             input.y = Input.GetAxisRaw("Vertical");
             
             if (input != Vector2.zero)
             {
-                StartCoroutine(_character.MoveTowards(input, CheckForPokemon));
+                StartCoroutine(_character.MoveTowards(input, OnMoveFinish));
             }
         }
         _character.HandleUpdate();
@@ -45,7 +46,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Interact()
+    void OnMoveFinish()
+    {
+        CheckForPokemon();
+        CheckForTrainersFov();
+    }
+
+        private void Interact()
     {
         timeSinceLastClick = 0;
         
@@ -56,7 +63,7 @@ public class PlayerController : MonoBehaviour
         var collider = Physics2D.OverlapCircle(interactPosition, 0.2f, GameLayers.SharedInstance.InteractableLayer);
         if (collider != null)
         {
-            collider.GetComponent<Interactable>()?.Interact();
+            collider.GetComponent<Interactable>()?.Interact(transform.position);
         }
     }
 
@@ -67,8 +74,19 @@ public class PlayerController : MonoBehaviour
         {
             if (Random.Range(0, 100) < 10)
             {
+                _character.Animator.isMoving = false;
                 OnPokemonEncountered();
             }
+        }
+    }
+    private void CheckForTrainersFov()
+    {
+        var collider = Physics2D.OverlapCircle(transform.position - new Vector3(0, verticalOffset), 0.2f,
+            GameLayers.SharedInstance.FOVLayer);
+        if ( collider != null)
+        {
+            _character.Animator.isMoving = false;
+            OnEnterTrainerFov?.Invoke(collider);
         }
     }
 }
