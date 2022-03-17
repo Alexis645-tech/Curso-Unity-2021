@@ -39,9 +39,15 @@ public class BattleUnit : MonoBehaviour
         pokemonImage.sprite = (isPlayer ? Pokemon.Base.BackSprite : Pokemon.Base.FrontSprite);
         pokemonImage.color = initialColor;
         
+        hud.gameObject.SetActive(true);
         hud.SetPokemonData(pokemon);
         transform.localScale = new Vector3(1, 1, 1);
         PlayStartAnimation();
+    }
+
+    public void ClearHud()
+    {
+        hud.gameObject.SetActive(false);
     }
 
     public void PlayStartAnimation()

@@ -3,12 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrainerController : MonoBehaviour
+public class TrainerController : MonoBehaviour, Interactable
 {
-    [SerializeField] private Dialogue dialogue;
+    [SerializeField] private string trainerName;
+    [SerializeField] private Sprite trainerSprite;
+    [SerializeField] private Dialogue dialogue, afterLoseDialogue;
     [SerializeField] private GameObject exclamationMessage;
     [SerializeField] private GameObject fov;
     private Character _character;
+
+    private bool trainerLostBattle = false;
+
+    public string TrainerName => trainerName;
+    public Sprite TrainerSprite => trainerSprite;
 
     private void Awake()
     {
@@ -20,12 +27,16 @@ public class TrainerController : MonoBehaviour
         SetFovDirection(_character.Animator.DefaultDirection);
     }
 
-    public IEnumerator TriggerTrainerBattle(PlayerController player)
+    IEnumerator ShowExclamationMark()
     {
         exclamationMessage.SetActive(true);
         yield return new WaitForSeconds(0.5f);
         exclamationMessage.SetActive(false);
-
+    }
+    public IEnumerator TriggerTrainerBattle(PlayerController player)
+    {
+        yield return ShowExclamationMark();
+        
         var diff = player.transform.position - transform.position;
         var moveVect = diff - diff.normalized;
         moveVect = new Vector2(Mathf.RoundToInt(moveVect.x), Mathf.RoundToInt(moveVect.y));
@@ -33,7 +44,7 @@ public class TrainerController : MonoBehaviour
         
         DialogueManager.SharedInstace.ShowDialogue(dialogue, () =>
         {
-            //TODO: Inicio de la batalla pokemon
+            GameManager.SharedInstance.StartTrainerBattle(this);
         });
     }
 
@@ -52,5 +63,30 @@ public class TrainerController : MonoBehaviour
         }
 
         fov.transform.eulerAngles = new Vector3(0, 0, angle);
+    }
+
+    public void Interact(Vector3 source)
+    {
+        if (!trainerLostBattle)
+        {
+            StartCoroutine(ShowExclamationMark());
+        }
+
+        _character.LookTowards(source);
+        if (!trainerLostBattle)
+        {
+            DialogueManager.SharedInstace.ShowDialogue(dialogue,
+                () => { GameManager.SharedInstance.StartTrainerBattle(this); });
+        }
+        else
+        {
+            DialogueManager.SharedInstace.ShowDialogue(afterLoseDialogue);
+        }
+    }
+
+    public void AfterTrainerLostBattle()
+    {
+        trainerLostBattle = true;
+        fov.gameObject.SetActive(false);
     }
 }

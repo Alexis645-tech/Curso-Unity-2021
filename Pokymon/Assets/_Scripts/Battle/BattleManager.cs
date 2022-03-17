@@ -6,6 +6,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Rendering.VirtualTexturing;
 using Random = UnityEngine.Random;
+using UnityEngine.UI;
 
 public enum BattleState
 {
@@ -43,6 +44,8 @@ public class BattleManager : MonoBehaviour
 
     [SerializeField] private SelectionMovementUI selectMoveUI;
 
+    [SerializeField] private Image playerImage, trainerImage;
+    
     public BattleState state;
     public BattleState? previousState;
     public BattleTYpe battleTYpe;
@@ -86,11 +89,16 @@ public class BattleManager : MonoBehaviour
 
         player = playerParty.GetComponent<PlayerController>();
         trainer = trainerParty.GetComponent<TrainerController>();
+
+        StartCoroutine(SetupBattle());
     }
 
     public IEnumerator SetupBattle()
     {
         state = BattleState.StartBattle;
+        playerUnit.ClearHud();
+        enemyUnit.ClearHud();
+        
         if (battleTYpe == BattleTYpe.WildPOkemon)
         {
             playerUnit.SetUpPokemon(playerParty.GetFirstNonFaintedPokemon());
@@ -101,9 +109,44 @@ public class BattleManager : MonoBehaviour
 
             yield return battleDialogueBox.SetDialogue($"Un {enemyUnit.Pokemon.Base.Name} salvaje a aparecido.");
         }
-        else
+        else //Entrenador y Lider
         {
+            playerUnit.gameObject.SetActive(false);
+            enemyUnit.gameObject.SetActive(false);
+
+            var playerInitialPosition = playerImage.transform.localPosition;
+            playerImage.transform.localPosition = playerInitialPosition - new Vector3(400f, 0, 0);
+            playerImage.transform.DOLocalMoveX(playerInitialPosition.x, 0.5f);
             
+            var trainerInitialPosition = trainerImage.transform.localPosition;
+            trainerImage.transform.localPosition = trainerInitialPosition - new Vector3(400f, 0, 0);
+            trainerImage.transform.DOLocalMoveX(trainerInitialPosition.x, 0.5f);
+            
+            playerImage.gameObject.SetActive(true);
+            trainerImage.gameObject.SetActive(true);
+            playerImage.sprite = player.TrainerSprite;
+            trainerImage.sprite = trainer.TrainerSprite;
+
+            yield return battleDialogueBox.SetDialogue($"¡{trainer.TrainerName} quiere luchar!");
+            
+            //Enviar el primer pokemon del entrenador
+            yield return trainerImage.transform.DOLocalMoveX(trainerImage.transform.localPosition.x + 400, 0.5f).WaitForCompletion();
+            trainerImage.gameObject.SetActive(false);
+            enemyUnit.gameObject.SetActive(true);
+            var enemyPokemon = trainerParty.GetFirstNonFaintedPokemon();
+            enemyUnit.SetUpPokemon(enemyPokemon);
+            yield return battleDialogueBox.SetDialogue($"{trainer.TrainerName} ha enviado a {enemyPokemon.Base.Name}");
+            trainerImage.transform.localPosition = trainerInitialPosition;
+            
+            //Enviar el primer pokemon del jugador
+            yield return playerImage.transform.DOLocalMoveX(playerImage.transform.localPosition.x - 400, 0.5f).WaitForCompletion();
+            playerImage.gameObject.SetActive(false);
+            playerUnit.gameObject.SetActive(true);
+            var playerPokemon = playerParty.GetFirstNonFaintedPokemon();
+            playerUnit.SetUpPokemon(playerPokemon);
+            battleDialogueBox.SetPokemonMovements(playerUnit.Pokemon.Moves);
+            yield return battleDialogueBox.SetDialogue($"Ve {playerPokemon.Base.Name}");
+            playerImage.transform.localPosition = playerInitialPosition;
         }
         partyHud.InitPartyHUD();
         
@@ -568,6 +611,7 @@ public class BattleManager : MonoBehaviour
         {
             yield return HandlePokemonFainted(attacker);
         }
+        yield return new WaitUntil(() => state == BattleState.RunTurn);
     }
 
     void CheckForBattleFinish(BattleUnit faintedUnit)
@@ -586,8 +630,33 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            BattleFinish(true);
+            if (battleTYpe == BattleTYpe.WildPOkemon)
+            {
+                BattleFinish(true);
+            }
+            else //Batalla contra un entrenador
+            {
+                var nextPokemon = trainerParty.GetFirstNonFaintedPokemon();
+                if (nextPokemon != null)
+                {
+                    //Enviar el siguiente pokemon a batalla
+                    StartCoroutine(SendNextTrainerPokemonToBattle(nextPokemon));
+
+                }
+                else
+                {
+                    BattleFinish(true);
+                }
+            }
         }
+    }
+
+    IEnumerator SendNextTrainerPokemonToBattle(Pokemon nextPokemon)
+    {
+        state = BattleState.Busy;
+        enemyUnit.SetUpPokemon(nextPokemon);
+        yield return battleDialogueBox.SetDialogue($"{trainer.name} ha enviado a {nextPokemon.Base.Name}");
+        state = BattleState.RunTurn;
     }
 
     IEnumerator ShowDamageDescription(DamageDescription description)

@@ -7,6 +7,11 @@ using Random = UnityEngine.Random;
 [RequireComponent(typeof(CharacterAnimator))]
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private string trainerName;
+    [SerializeField] private Sprite trainerSprite;
+    public string TrainerName => trainerName;
+    public Sprite TrainerSprite => trainerSprite;
+    
     private Vector2 input;
 
     private Character _character;
