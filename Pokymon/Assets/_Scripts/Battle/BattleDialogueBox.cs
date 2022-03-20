@@ -10,11 +10,14 @@ public class BattleDialogueBox : MonoBehaviour
     [SerializeField] private GameObject movementSelect;
     [SerializeField] private GameObject movementDescription;
     
+    [SerializeField] GameObject yesNoBox;
+    
     [SerializeField] List<Text> actionTexts;
     [SerializeField] List<Text> movementTexts;
 
     [SerializeField] private Text ppText;
     [SerializeField] private Text typeText;
+    [SerializeField] private Text yesText, noText;
 
     public float timeToWaitAfterText = 1f;
     
@@ -55,11 +58,15 @@ public class BattleDialogueBox : MonoBehaviour
         movementDescription.SetActive(activated);
     }
 
+    public void ToggleYesNoBox(bool activated)
+    {
+        yesNoBox.SetActive(activated);
+    }
     public void SelectAction(int selectedAction)
     {
         for (int i = 0; i < actionTexts.Count; i++)
         {
-            actionTexts[i].color = (i == selectedAction ? ColorManager.SharedInstance.selectedColor : Color.black);
+            actionTexts[i].color = (i == selectedAction ? ColorManager.SharedInstance.selectedColor : ColorManager.SharedInstance.defaultColor);
         }
     }
 
@@ -82,12 +89,25 @@ public class BattleDialogueBox : MonoBehaviour
     {
         for (int i = 0; i < movementTexts.Count; i++)
         {
-            movementTexts[i].color = (i == selectedMovement ? ColorManager.SharedInstance.selectedColor : Color.black);
+            movementTexts[i].color = (i == selectedMovement ? ColorManager.SharedInstance.selectedColor : ColorManager.SharedInstance.defaultColor);
         }
 
         ppText.text = $"PP {move.Pp}/{move.Base.PP}";
         typeText.text = move.Base.Type.ToString().ToUpper();
 
         ppText.color = ColorManager.SharedInstance.PpColor((float)move.Pp/move.Base.PP);
+    }
+    public void SelectYesNoAction(bool yesSelected)
+    {
+        if (yesSelected)
+        {
+            yesText.color = ColorManager.SharedInstance.selectedColor;
+            noText.color = ColorManager.SharedInstance.defaultColor;
+        }
+        else
+        {
+            yesText.color = ColorManager.SharedInstance.defaultColor;
+            noText.color = ColorManager.SharedInstance.selectedColor;
+        }
     }
 }

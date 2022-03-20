@@ -7,6 +7,7 @@ public class ColorManager : MonoBehaviour
 {
     public static ColorManager SharedInstance;
     public Color selectedColor;
+    public Color defaultColor = Color.black;
 
     private void Awake()
     {

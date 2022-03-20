@@ -15,6 +15,7 @@ public enum BattleState
     MovementSelection,
     PartySelectScreen,
     Busy,
+    YesNoChoice,
     RunTurn,
     ItemSelectScreen,
     ForgetMovement,
@@ -62,6 +63,7 @@ public class BattleManager : MonoBehaviour
     private int currentSelectedAction;
     private int currentSelectedMovement;
     private int currentSelectedPokemon;
+    private bool currentSelectedChoice = true;
     
     private int scapeAttempts;
     private MoveBase moveToLearn;
@@ -191,6 +193,14 @@ public class BattleManager : MonoBehaviour
         partyHud.UdpdateSelectedPokemon(currentSelectedPokemon);
     }
 
+    IEnumerator YesNoChoice(Pokemon newTrainerPokemon)
+    {
+        state = BattleState.Busy;
+        yield return battleDialogueBox.SetDialogue($"{trainer.TrainerName} va a sacar a {newTrainerPokemon.Base.Name}. ¿Quieres cambiar tu pokemon?");
+        state = BattleState.YesNoChoice;
+        battleDialogueBox.ToggleYesNoBox(true);
+    }
+
     public void HandleUpdate()
     {
         timeSinceLastClick += Time.deltaTime;
@@ -208,6 +218,9 @@ public class BattleManager : MonoBehaviour
         }else if (state == BattleState.PartySelectScreen)
         {
             HandlePlayerPartySelection();
+        }else if (state == BattleState.YesNoChoice)
+        {
+            HandleYesNoChoice();
         }else if (state == BattleState.ForgetMovement)
         {
             selectMoveUI.HandleForgetMoveSelection((moveIndex) =>
@@ -369,8 +382,53 @@ public class BattleManager : MonoBehaviour
 
         if (Input.GetAxisRaw("Cancel") != 0)
         {
+            if (playerUnit.Pokemon.HP <= 0)
+            {
+                partyHud.SetMessage("Tienes que seleccionar un pokemon para continuar...");
+                return;
+            }
             partyHud.gameObject.SetActive(false);
-            PlayerActionSelection();
+            if (previousState == BattleState.YesNoChoice)
+            {
+                previousState = null;
+                StartCoroutine(SendNextTrainerPokemonToBattle());
+            }
+            else
+            {
+                PlayerActionSelection();
+            }
+        }
+    }
+
+    void HandleYesNoChoice()
+    {
+        if (Input.GetAxisRaw("Vertical") != 0)
+        {
+            timeSinceLastClick = 0;
+            currentSelectedChoice = !currentSelectedChoice;
+        }
+        battleDialogueBox.SelectYesNoAction(currentSelectedChoice);
+
+        if (Input.GetAxisRaw("Submit") != 0)
+        {
+            timeSinceLastClick = 0;
+            battleDialogueBox.ToggleYesNoBox(false);
+            if (currentSelectedChoice)
+            {
+                previousState = BattleState.YesNoChoice;
+                OpenPartySelectionScreen();
+            }
+            else
+            {
+                StartCoroutine(SendNextTrainerPokemonToBattle());
+            }
+        }
+
+        if (Input.GetAxisRaw("Cancel") != 0)
+        {
+            timeSinceLastClick = 0;
+            battleDialogueBox.ToggleYesNoBox(false);
+            StartCoroutine(SendNextTrainerPokemonToBattle());
         }
     }
 
@@ -640,7 +698,7 @@ public class BattleManager : MonoBehaviour
                 if (nextPokemon != null)
                 {
                     //Enviar el siguiente pokemon a batalla
-                    StartCoroutine(SendNextTrainerPokemonToBattle(nextPokemon));
+                    StartCoroutine(YesNoChoice(nextPokemon));
 
                 }
                 else
@@ -651,9 +709,10 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    IEnumerator SendNextTrainerPokemonToBattle(Pokemon nextPokemon)
+    IEnumerator SendNextTrainerPokemonToBattle()
     {
         state = BattleState.Busy;
+        var nextPokemon = trainerParty.GetFirstNonFaintedPokemon();
         enemyUnit.SetUpPokemon(nextPokemon);
         yield return battleDialogueBox.SetDialogue($"{trainer.name} ha enviado a {nextPokemon.Base.Name}");
         state = BattleState.RunTurn;
@@ -689,7 +748,13 @@ public class BattleManager : MonoBehaviour
         
         yield return battleDialogueBox.SetDialogue($"¡Ve {newPokemon.Base.Name}!");
         yield return new WaitForSeconds(1.0f);
-        state = BattleState.RunTurn;
+        if (previousState == null)
+        {
+            state = BattleState.RunTurn;
+        }else if (previousState == BattleState.YesNoChoice)
+        {
+            yield return SendNextTrainerPokemonToBattle();
+        }
     }
 
     IEnumerator ThrowPokeball()

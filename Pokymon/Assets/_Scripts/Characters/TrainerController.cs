@@ -27,6 +27,11 @@ public class TrainerController : MonoBehaviour, Interactable
         SetFovDirection(_character.Animator.DefaultDirection);
     }
 
+    private void Update()
+    {
+        _character.HandleUpdate();
+    }
+
     IEnumerator ShowExclamationMark()
     {
         exclamationMessage.SetActive(true);
